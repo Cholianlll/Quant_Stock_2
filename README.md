@@ -1,2 +1,37 @@
-# Quant_Stock_2
-The project is to build a alpha stock selection model with the assistance under GF Securities.
+# Indicators
+
+This project to build and modify the alpha stock selection by Guangfa securities
+
+Author:
+Cholian
+Russell
+
+
+
+{\frac{R_{2019}}{R_{2017}}}^{1/3} - 1 > 15%
+
+
+> Need to be updated:
+### EBITDA:
+ 近三年EBITDA同比复合增速 > 10%， 且无负值
+### 扣非净利润：
+  近三年扣非净利润复合环比增速 > 10%， 允许有负值
+### ROA
+  近三年ROA有提升（期末：期初）且绝对值不低于5
+### 总资产周转率 + 净利率（new）
+  近三年两项数据无同时下滑（期末：期初），否则剔除
+### 毛利率
+  总和毛利率 > 15%，否则剔除
+### 经营性现金流净额OCF增长率
+  近三年年增速不低于同期扣非净利润年均增速50%，否则剔除
+### 企业每股自由现金流（new）
+  近三年各年度每股企业自由现金流不能均为负值
+### 费用资本化率（new）
+  近三年累计开发支出 < 研发支出的50%，且开发支出占营收 < 15%
+### 应收帐款，票据（new）
+  近三年应收帐款 + 票据合计增速 < 同期营业收入增速的1.5倍
+### 商誉在净资产中的占比
+  近一年商誉在净资产中的比重 < 30%
+### PEG/PB（new）
+  近一年PE/净利润增速 < 2.5 且PB < 15
+  
