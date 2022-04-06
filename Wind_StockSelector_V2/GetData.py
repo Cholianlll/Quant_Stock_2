@@ -17,12 +17,14 @@ warnings.filterwarnings("ignore")  # 关闭警告
 # 连接SQL数据库
 # conn = psycopg2.connect(database="WindStockData", user="postgres", password="191124", host="localhost", port="5432")
 # 获得游标，一个游标对象可以对数据库进行执行操作，多个应用会在同一个连接种创建多个光标
-conn = pymysql.connect(db="Wind", user="jacaranda", password="U9qJA32zpUEiwey8cECi", 
-                       host="jacarandastock.com", port=3306)
+
 # For adding the "numpy.float64" data type when inserting the data into double
 pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
 pymysql.converters.conversions = pymysql.converters.encoders.copy()
 pymysql.converters.conversions.update(pymysql.converters.decoders)
+
+conn = pymysql.connect(db="Wind", user="jacaranda", password="U9qJA32zpUEiwey8cECi", 
+                       host="jacarandastock.com", port=3306)
 
 cursor = conn.cursor()
 
