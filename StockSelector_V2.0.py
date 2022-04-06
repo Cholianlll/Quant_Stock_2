@@ -1,7 +1,6 @@
 """
 Author: 魏园村等团队
 
-
 20220308 - V2.0 修改
 Author 1: Cholian
 cholianli970518@gmail.com
@@ -17,6 +16,23 @@ Author 1: Russell
 运行程序前检查三个参数：调仓日期，初始股票板块，Excel表格输出路径
 
 
+requried database: 
+
+database name: Wind
+mysql database structure
+
+Wind
+-stockdata
+    --stock_code varchar(64)
+    --date  datetime
+-pg_tables
+    --tablename  varchar(255)
+-constituents
+    --sectorid varchar(20)
+    --date date
+    --stock_code varchar(9)
+    --stock_name varchar(16)
+    
 """
 
 from WindPy import w
@@ -111,8 +127,7 @@ filter_procedure = [
         "fields":
             [
                 {
-                    # ! ROA代码待查
-                    "name": ["？？？？"],
+                    "name": ["roa"],
                     "params": {"monotonicity" : '>0'}
                 }
             ],
@@ -127,13 +142,13 @@ filter_procedure = [
         "fields":
             [
                 {
-                    # !总资产周转率wind代码未知
-                    "name": ["？？？？"],
+                    # 总资产周转率
+                    "name": ["assetsturn1"],
                     "params": {'monotonicity': ">0"} 
                 },
                 {
-                    # !净利率wind代码未知
-                    "name": ["？？？？"],
+                    # 总资产净利率
+                    "name": ["roa"],
                     "params": {'monotonicity': ">0"}
                 }
             ],
@@ -201,8 +216,8 @@ filter_procedure = [
         "fields":
             [
                 {
-                    # ! 待查代码
-                    "name": ["？？？？"],
+                    # 每股现金流净额
+                    "name": ["cfps"],
                     "params": {"all" : "(calculate_df > 0)"}
                 }
             ],
@@ -304,13 +319,13 @@ filter_procedure = [
         "fields":
             [
                 {
-                    # ! peg code
-                    "name": ["??peg code??", "net_profit_is"],
+                    # PE
+                    "name": ["pe", "net_profit_is"],
                     "params": {'dfarithmetic': ['/'], 'growth_rate': True, 'point': -1, 'all': "(calculate_df < 2.5)"}
                 },
                 {
-                    # ! PB code
-                    "name": ["??PB code??"],
+                    # PB
+                    "name": ["pb"],
                     "params": {'point': -1, 'all': "(calculate_df < 15)"}
                 }
             ],
