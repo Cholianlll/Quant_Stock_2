@@ -1,7 +1,6 @@
 """
 Author: 魏园村等团队
 
-
 20220308 - V2.0 修改
 Author 1: Cholian
 cholianli970518@gmail.com
@@ -17,6 +16,23 @@ Author 1: Russell
 运行程序前检查三个参数：调仓日期，初始股票板块，Excel表格输出路径
 
 
+requried database: 
+
+database name: Wind
+mysql database structure
+
+Wind
+-stockdata
+    --stock_code varchar(64)
+    --date  datetime
+-pg_tables
+    --tablename  varchar(255)
+-constituents
+    --sectorid varchar(20)
+    --date date
+    --stock_code varchar(9)
+    --stock_name varchar(16)
+    
 """
 
 from WindPy import w
