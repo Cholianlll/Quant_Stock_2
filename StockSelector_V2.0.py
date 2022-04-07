@@ -431,14 +431,14 @@ pool.get_constituent(operate_date, "a001010100000000")  # 获取当年成分股
 filter = Filter(pool, operate_date)
 filter.filter_procedure(filter_procedure)
 filter.filter()
-
+s
 # 根据评分条件进行评分
 scorer = Scorer(pool, operate_date)
 scorer.score_procedure(score_procedure)
 scorer.score()
 
 # 回测表格
-pool.traceback(scorer, operate_date, "C:\PYworkplace\Wind_StockSelector\\", 50)
+pool.traceback(scorer, operate_date, "anlysis/", 50)
 
 # 查看
 pd.set_option('display.max_columns', 1000)
