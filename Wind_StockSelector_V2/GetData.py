@@ -54,6 +54,11 @@ class StockData:
         """
         cursor.execute(sql)
         column_names = [t[0] for t in cursor.fetchall()]  # 列名
+        
+        # ! start this is for temporary debugging############
+        if column_names == []:
+            column_names = ['debttoassets','deductedprofit']
+        ## end #########################################
         # 若field对应列名不存在，在TABLE中加入此列
         if field.lower() not in column_names:
             sql = """ALTER TABLE stockdata ADD %s double precision;""" % field
@@ -84,15 +89,16 @@ class StockData:
         # 根据stock_codes和dates查询field的数据
         sql = "SELECT stock_code,date," + field + " FROM stockdata WHERE stock_code IN " + str(
             stock_codes) + " AND date IN " + str(dates_tuple)
+        
         cursor.execute(sql)
-        SQLdata = cursor.fetchall()  
+        SQLdata = cursor.fetchall() 
         #! 从本地SQL返回的数据行列表，每行元素分别为stock_code,date,value
         
-        if SQLdata == ():
-            SQLdata = pd.DataFrame()
+        # if SQLdata.empty:
+        #     SQLdata = pd.DataFrame()
     
         # 将每个value录入DataFrame对应单元格，并从未录入清单中剔除对应code，date和field组合
-        for row in SQLdata.copy():
+        for row in SQLdata:
             if (row == None) or (row[-1] == None) or (self.update == True):  # 如果为空值或需要更新数据，不做任何处理
                 pass
             else:
@@ -101,9 +107,12 @@ class StockData:
                 # ! self.SQL_data.index.name = field
                 
                 self.SQL_data.loc[row[0], row[1]] = row[-1]  # 录入数据  -> self.SQL_data.loc[‘000001.SH’, '2021-05-01'] = '25.5'
-                self.blank_list.remove(
-                    {"stock_code": row[0], "date": datetime.datetime.strftime(row[1], "%Y-%m-%d"),
-                     "field": field})  # 从未录入清单中删除
+                try:
+                    self.blank_list.remove(
+                        {"stock_code": row[0], "date": datetime.datetime.strftime(row[1], "%Y-%m-%d"),
+                        "field": field})  # 从未录入清单中删除
+                except:
+                    continue
 
         if self.blank_list:
             print("需要向Wind请求%s条数据" % len(self.blank_list))
@@ -205,7 +214,8 @@ class StockData:
                              "value": Wind_data.iloc[dates.index(date), stock_codes.index(code)]  # 数值
                              }
                 if data_dict["value"] == None:  # 如果获取的数值为空值None，则转换为空值Nan，以便区分
-                    data_dict["value"] = np.NaN
+                    # data_dict["value"] = np.NaN
+                    data_dict["value"] = ''
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 
         # 将列表中的每组信息保存到SQL中
@@ -220,6 +230,7 @@ class StockData:
                 sql = """INSERT INTO stockdata (stock_code,date,""" + data_dict[
                     "field"] + """) VALUES (%s,%s,%s);"""
                 params = (data_dict["stock_code"], data_dict["date"], data_dict["value"])
+                
                 cursor.execute(sql, params)
                 conn.commit()
             # 若code-date存在，则检查code-date-field是否存在
