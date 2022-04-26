@@ -363,4 +363,4 @@ class Scorer:
                                              self.score_report["总分"].values.tolist()])
         self.score_report.index.name = ""
         print(self.score_report)
-        self.score_report.to_excel("C:\PYworkplace\Wind_StockSelector\%s评分.xlsx" % self.operate_date)
+        self.score_report.to_excel("%s评分.xlsx" % self.operate_date)
