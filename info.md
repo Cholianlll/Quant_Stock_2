@@ -44,5 +44,9 @@ e.g：
 
 
 
+ip: jacarandastock.com 
+username: admin 
+password: TFqt3qihVYei4qZz
+
 
 
