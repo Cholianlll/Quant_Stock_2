@@ -23,8 +23,10 @@ pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
 pymysql.converters.conversions = pymysql.converters.encoders.copy()
 pymysql.converters.conversions.update(pymysql.converters.decoders)
 
-conn = pymysql.connect(db="Wind", user="admin", password="TFqt3qihVYei4qZz", 
-                       host="jacarandastock.com", port=3306)
+# conn = pymysql.connect(db="Wind", user="admin", password="TFqt3qihVYei4qZz", 
+#                        host="jacarandastock.com", port=3306)
+conn = pymysql.connect(db="Wind", user="cholian", password="123Q456w", 
+                       host="43.132.196.216", port=3306)
 
 cursor = conn.cursor()
 
@@ -61,8 +63,8 @@ class StockData:
         therefore, non-admin user can not attend the table column,
         we should add columns manually'''
         
-        if column_names == []:
-            column_names = ['debttoassets','deductedprofit']
+        # if column_names == []:
+        #     column_names = ['debttoassets','deductedprofit']
             
         # ! end #########################################
         # 若field对应列名不存在，在TABLE中加入此列
