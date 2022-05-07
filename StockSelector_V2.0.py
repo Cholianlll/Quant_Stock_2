@@ -34,6 +34,10 @@ Wind
     --stock_name varchar(16)
     
     
+Query:
+create database Wind;
+    
+    
 database account privilege: needed to be administrator
 """
 
@@ -48,20 +52,20 @@ w.start(waitTime=60)  # 启动API 默认命令超时时间为120秒，如需设�
 filter_procedure = [
     
     # 资产负债率
-    {
-        "fields":
-            [
-                {
-                    "name": ["debttoassets"],
-                    "params": {'point': -1}
-                }
-            ],
-        "fields_arithmetic": {},
-        "sgn": "<",
-        "threshold": 60,
-        "period": "1Y",
-        "description": "负债率 < 60% 1Y"
-    },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["debttoassets"],
+    #                 "params": {'point': -1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "sgn": "<",
+    #     "threshold": 60,
+    #     "period": "1Y",
+    #     "description": "负债率 < 60% 1Y"
+    # },
 
     # 营业收入
     {
