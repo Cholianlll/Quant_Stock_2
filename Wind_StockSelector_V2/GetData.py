@@ -50,10 +50,14 @@ class StockData:
         """
 
         # 检查SQL中是否存在此指标
-        sql = """
-        SELECT column_name FROM information_schema.columns 
-        WHERE table_schema='public' AND table_name='stockdata';
-        """
+        # sql = """
+        # SELECT column_name FROM information_schema.columns 
+        # WHERE table_schema='public' AND table_name='stockdata';
+        # """
+        sql = '''
+        SELECT column_name FROM information_schema.columns
+        WHERE table_name='stockdata';       
+        '''
         cursor.execute(sql)
         column_names = [t[0] for t in cursor.fetchall()]  # 列名
         

@@ -52,66 +52,66 @@ w.start(waitTime=60)  # 启动API 默认命令超时时间为120秒，如需设�
 filter_procedure = [
     
     # 资产负债率
+    {
+        "fields":
+            [
+                {
+                    "name": ["debttoassets"],
+                    "params": {'point': -1}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "<",
+        "threshold": 60,
+        "period": "1Y",
+        "description": "负债率 < 60% 1Y"
+    },
+
+    # 营业收入
     # {
     #     "fields":
     #         [
     #             {
-    #                 "name": ["debttoassets"],
-    #                 "params": {'point': -1}
+    #                 "name": ["oper_rev"],
+    #                 "params": {"compound_growth_rate" : True}
     #             }
     #         ],
     #     "fields_arithmetic": {},
-    #     "sgn": "<",
-    #     "threshold": 60,
-    #     "period": "1Y",
-    #     "description": "负债率 < 60% 1Y"
+    #     "sgn": ">",
+    #     "threshold": 0.15,
+    #     "period": "3Y",
+    #     "description": "营业收入 复合增速 > 15% 3Y"
     # },
 
-    # 营业收入
-    {
-        "fields":
-            [
-                {
-                    "name": ["oper_rev"],
-                    "params": {"compound_growth_rate" : True}
-                }
-            ],
-        "fields_arithmetic": {},
-        "sgn": ">",
-        "threshold": 0.15,
-        "period": "3Y",
-        "description": "营业收入 复合增速 > 15% 3Y"
-    },
-
     # EBITDA
-    {
-        "fields":
-            [
-                {
-                    "name": ["ebitda"],
-                    "params": {"all": "(calculate_df>0)"}
-                }
-            ],
-        "fields_arithmetic": {},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "EBITDA 全部大于零 3Y"
-    },
-    {
-        "fields":
-            [
-                {
-                    "name": ["ebitda"],
-                    "params": {'compound_growth_rate': True}
-                }
-            ],
-        "fields_arithmetic": {},
-        "sgn": ">",
-        "threshold": 0.1,
-        "period": "3Y",
-        "description": "EBITDA 复合增速 > 10% 3Y"
-    },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["ebitda"],
+    #                 "params": {"all": "(calculate_df>0)"}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "3Y",
+    #     "description": "EBITDA 全部大于零 3Y"
+    # },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["ebitda"],
+    #                 "params": {'compound_growth_rate': True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "sgn": ">",
+    #     "threshold": 0.1,
+    #     "period": "3Y",
+    #     "description": "EBITDA 复合增速 > 10% 3Y"
+    # },
     
 #     # 扣非净利润
 #     {
@@ -349,20 +349,20 @@ score_procedure = [
     
     
         ############################################## the code below this line is old version 
-    {
-        "fields":
-            [
-                {
-                    "name": ["deductedprofit"],
-                    "params": {'growth_rate': True, 'mean': True}
-                }
-            ],
-        "fields_arithmetic": {},
-        "how": "ascending",
-        "period": "1Y",
-        "weight": 0.15,
-        "description": "扣非净利润 增速均值 3Y"
-    },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["deductedprofit"],
+    #                 "params": {'growth_rate': True, 'mean': True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "how": "ascending",
+    #     "period": "1Y",
+    #     "weight": 0.15,
+    #     "description": "扣非净利润 增速均值 3Y"
+    # },
     # {
     #     "fields":
     #         [
@@ -422,8 +422,23 @@ score_procedure = [
     #     "period": "3Y",
     #     "weight": 0.35,
     #     "description": "PEG_ttm 平均值 3Y"
-    # }
-############################################## the code below this line is old version 
+    # },
+############################################## the code before this line is old version 
+
+    {
+        "fields":
+            [
+                {
+                    "name": ["est_stdnetprofit"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {},
+        "how": "ascending",
+        "period": "1Y",
+        "weight": 0.15,
+        "description": "净利润增速一致预期 1Y"
+    },
 ]
 
 # 实例化股票池
