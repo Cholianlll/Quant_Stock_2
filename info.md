@@ -44,5 +44,15 @@ e.g：
 
 
 
+ip: jacarandastock.com 
+username: admin 
+password: TFqt3qihVYei4qZz
+
+
+
+ip: jacarandastock.com
+Port: 3306
+Username:jacaranda
+Password: U9qJA32zpUEiwey8cECi
 
 

@@ -23,8 +23,10 @@ pymysql.converters.encoders[np.float64] = pymysql.converters.escape_float
 pymysql.converters.conversions = pymysql.converters.encoders.copy()
 pymysql.converters.conversions.update(pymysql.converters.decoders)
 
-conn = pymysql.connect(db="Wind", user="jacaranda", password="U9qJA32zpUEiwey8cECi", 
-                       host="jacarandastock.com", port=3306)
+# conn = pymysql.connect(db="Wind", user="admin", password="TFqt3qihVYei4qZz", 
+#                        host="jacarandastock.com", port=3306)
+conn = pymysql.connect(db="Wind", user="cholian", password="123Q456w", 
+                       host="43.132.196.216", port=3306)
 
 cursor = conn.cursor()
 
@@ -56,9 +58,15 @@ class StockData:
         column_names = [t[0] for t in cursor.fetchall()]  # 列名
         
         # ! start this is for temporary debugging############
-        if column_names == []:
-            column_names = ['debttoassets','deductedprofit']
-        ## end #########################################
+        
+        ''' since the above function will detect the columns existing, 
+        therefore, non-admin user can not attend the table column,
+        we should add columns manually'''
+        
+        # if column_names == []:
+        #     column_names = ['debttoassets','deductedprofit']
+            
+        # ! end #########################################
         # 若field对应列名不存在，在TABLE中加入此列
         if field.lower() not in column_names:
             sql = """ALTER TABLE stockdata ADD %s double precision;""" % field

@@ -63,51 +63,51 @@ filter_procedure = [
         "description": "负债率 < 60% 1Y"
     },
 
-#     # 营业收入
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["oper_rev"],
-#                     "params": {"compound_growth_rate" : True}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": ">",
-#         "threshold": 0.15,
-#         "period": "3Y",
-#         "description": "营业收入 复合增速 > 15% 3Y"
-#     },
+    # 营业收入
+    {
+        "fields":
+            [
+                {
+                    "name": ["oper_rev"],
+                    "params": {"compound_growth_rate" : True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.15,
+        "period": "3Y",
+        "description": "营业收入 复合增速 > 15% 3Y"
+    },
 
-#     # EBITDA
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["ebitda"],
-#                     "params": {"all": "(calculate_df>0)"}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "EBITDA 全部大于零 3Y"
-#     },
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["ebitda"],
-#                     "params": {'compound_growth_rate': True}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": ">",
-#         "threshold": 0.1,
-#         "period": "3Y",
-#         "description": "EBITDA 复合增速 > 10% 3Y"
-#     },
+    # EBITDA
+    {
+        "fields":
+            [
+                {
+                    "name": ["ebitda"],
+                    "params": {"all": "(calculate_df>0)"}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "EBITDA 全部大于零 3Y"
+    },
+    {
+        "fields":
+            [
+                {
+                    "name": ["ebitda"],
+                    "params": {'compound_growth_rate': True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.1,
+        "period": "3Y",
+        "description": "EBITDA 复合增速 > 10% 3Y"
+    },
     
 #     # 扣非净利润
 #     {
@@ -431,7 +431,7 @@ pool.get_constituent(operate_date, "a001010100000000")  # 获取当年成分股
 filter = Filter(pool, operate_date)
 filter.filter_procedure(filter_procedure)
 filter.filter()
-s
+
 # 根据评分条件进行评分
 scorer = Scorer(pool, operate_date)
 scorer.score_procedure(score_procedure)
