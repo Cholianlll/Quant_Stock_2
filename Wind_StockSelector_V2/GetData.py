@@ -50,10 +50,13 @@ class StockData:
         """
 
         # 检查SQL中是否存在此指标
+        # 20220507 debug: table_schema='public' has wrong with the result in the next version, so dropped it
+        
         # sql = """
         # SELECT column_name FROM information_schema.columns 
         # WHERE table_schema='public' AND table_name='stockdata';
         # """
+        
         sql = '''
         SELECT column_name FROM information_schema.columns
         WHERE table_name='stockdata';       
