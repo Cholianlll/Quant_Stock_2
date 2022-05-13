@@ -12,3 +12,5 @@ update the database
 
 2022 0512: 
 update the database
+
+est_stdnetprofit some problem with this kinds of data. therefore we need to handle with it again.

@@ -68,279 +68,279 @@ filter_procedure = [
     },
 
     # 营业收入
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["oper_rev"],
-    #                 "params": {"compound_growth_rate" : True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "sgn": ">",
-    #     "threshold": 0.15,
-    #     "period": "3Y",
-    #     "description": "营业收入 复合增速 > 15% 3Y"
-    # },
+    {
+        "fields":
+            [
+                {
+                    "name": ["oper_rev"],
+                    "params": {"compound_growth_rate" : True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.15,
+        "period": "3Y",
+        "description": "营业收入 复合增速 > 15% 3Y"
+    },
 
     # EBITDA
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["ebitda"],
-    #                 "params": {"all": "(calculate_df>0)"}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "sgn": "==",
-    #     "threshold": True,
-    #     "period": "3Y",
-    #     "description": "EBITDA 全部大于零 3Y"
-    # },
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["ebitda"],
-    #                 "params": {'compound_growth_rate': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "sgn": ">",
-    #     "threshold": 0.1,
-    #     "period": "3Y",
-    #     "description": "EBITDA 复合增速 > 10% 3Y"
-    # },
+    {
+        "fields":
+            [
+                {
+                    "name": ["ebitda"],
+                    "params": {"all": "(calculate_df>0)"}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "EBITDA 全部大于零 3Y"
+    },
+    {
+        "fields":
+            [
+                {
+                    "name": ["ebitda"],
+                    "params": {'compound_growth_rate': True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.1,
+        "period": "3Y",
+        "description": "EBITDA 复合增速 > 10% 3Y"
+    },
     
-#     # 扣非净利润
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["deductedprofit"],
-#                     "params": {"compound_growth_rate" : True}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": ">",
-#         "threshold": 0.15,
-#         "period": "3Y",
-#         "description": "扣非净利润 复合增速 > 15% 3Y"
-#     },
-#     # ROA
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["roa"],
-#                     "params": {"monotonicity" : '>0'}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "扣非净利润 复合增速 > 15% 3Y"
-#     },
-#     # 总资产周转率+净利率
-#     {
-#         "fields":
-#             [
-#                 {
-#                     # 总资产周转率
-#                     "name": ["assetsturn1"],
-#                     "params": {'monotonicity': ">0"} 
-#                 },
-#                 {
-#                     # 总资产净利率
-#                     "name": ["roa"],
-#                     "params": {'monotonicity': ">0"}
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['*']}, # True * True
-#         "sgn": "==",
-#         "threshold": 1,
-#         "period": "3Y",
-#         "description": "总资产周转率和净利率无同时下滑 3Y"
-#     },  
-#     # 毛利率
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["grossprofitmargin"],
-#                     "params": {"growth_rate" : True, 'point':-1}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": ">",
-#         "threshold": 0.15,
-#         "period": "1Y",
-#         "description": "毛利率 最新一期增速 > 15% 1Y"
-#     },    
-#     # 应收帐款+应收票据增速/净利润增速
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["acct_rcv", "notes_rcv"],
-#                     "params": {'dfarithmetic': ['+'], 'growth_rate': True, 'mean': True}
-#                 },
-#                 {
-#                     "name": ["net_profit_is"],
-#                     "params": {"point": -1} # 拿出最新值
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['/']},
-#         "sgn": "<",
-#         "threshold": 1,
-#         "period": "3Y",
-#         "description": "(应收帐款 + 应收票据)3Y年均增速 < 净利润增速"
-#     },
-#     # OCF增长率
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["net_cash_flows_oper_act"],
-#                     "params": {'growth_rate': True}
-#                 },
-#                 {
-#                     "name": ["grossprofitmargin"],
-#                     "params": {'growth_rate': True} 
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.5)'},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "经营性现金流增速 > 50%扣非净利润增速 3Y"
-#     },
-#     # 每股净现金流
-#     {
-#         "fields":
-#             [
-#                 {
-#                     # 每股现金流净额
-#                     "name": ["cfps"],
-#                     "params": {"all" : "(calculate_df > 0)"}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "扣非净利润 复合增速 > 15% 3Y"
-#     },    
-#     # 研发支出占比
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["stmnote_rdexp_capital"],
-#                     "params": {}
-#                 },
-#                 {
-#                     "name": ["oper_rev"],
-#                     "params": {}
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "资本化研发支出/营业收入 > 8% 3Y"
-#     },
-#     # 研发支出占比
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["stmnote_rdexp_capital"],
-#                     "params": {}
-#                 },
-#                 {
-#                     "name": ["oper_rev"],
-#                     "params": {}
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df < 0.15)"},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "资本化研发支出/营业收入 < 15% 3Y"
-#     },
-#     # 审计意见
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["stmnote_audit_category"],
-#                     "params": {"all": "((calculate_df=='标准无保留意见')|(calculate_df=='带强调事项段的无保留意见'))"}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "3Y",
-#         "description": "审计意见 全部无保留 3Y"
-#     },
-#     # 应收帐款+票据 与 营收增速
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["acct_rcv", "notes_rcv"],
-#                     "params": {'dfarithmetic': ['+'], 'growth_rate': True, 'mean': True}
-#                 },
-#                 {
-#                     "name": ["oper_rev"],
-#                     "params": {'growth_rate': True, 'mean': True}
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['/']},
-#         "sgn": "<",
-#         "threshold": 1.5,
-#         "period": "3Y",
-#         "description": "(应收账款+应收票据) 增速均值 < 营收1.5倍 增速均值 3Y"
-#     },   
-#     # 商誉 
-#     {
-#         "fields":
-#             [
-#                 {
-#                     "name": ["goodwill", "tot_equity"],
-#                     "params": {'dfarithmetic': ['/'], 'point': -1}
-#                 }
-#             ],
-#         "fields_arithmetic": {},
-#         "sgn": "<",
-#         "threshold": 0.3,
-#         "period": "1Y",
-#         "description": "商誉/净资产 近一年值 <30% 1Y"
-#     },
-#     # PEG and PB
-#     {
-#         "fields":
-#             [
-#                 {
-#                     # PE
-#                     "name": ["pe", "net_profit_is"],
-#                     "params": {'dfarithmetic': ['/'], 'growth_rate': True, 'point': -1, 'all': "(calculate_df < 2.5)"}
-#                 },
-#                 {
-#                     # PB
-#                     "name": ["pb"],
-#                     "params": {'point': -1, 'all': "(calculate_df < 15)"}
-#                 }
-#             ],
-#         "fields_arithmetic": {'dfarithmetic': ['*']},
-#         "sgn": "==",
-#         "threshold": True,
-#         "period": "1Y",
-#         "description": "PE/净利润<2.5 and PB < 15 1Y"
-#     }    
+    # 扣非净利润
+    {
+        "fields":
+            [
+                {
+                    "name": ["deductedprofit"],
+                    "params": {"compound_growth_rate" : True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.15,
+        "period": "3Y",
+        "description": "扣非净利润 复合增速 > 15% 3Y"
+    },
+    # ROA
+    {
+        "fields":
+            [
+                {
+                    "name": ["roa"],
+                    "params": {"monotonicity" : '>0'}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "扣非净利润 复合增速 > 15% 3Y"
+    },
+    # 总资产周转率+净利率
+    {
+        "fields":
+            [
+                {
+                    # 总资产周转率
+                    "name": ["assetsturn1"],
+                    "params": {'monotonicity': ">0"} 
+                },
+                {
+                    # 总资产净利率
+                    "name": ["roa"],
+                    "params": {'monotonicity': ">0"}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['*']}, # True * True
+        "sgn": "==",
+        "threshold": 1,
+        "period": "3Y",
+        "description": "总资产周转率和净利率无同时下滑 3Y"
+    },  
+    # 毛利率
+    {
+        "fields":
+            [
+                {
+                    "name": ["grossprofitmargin"],
+                    "params": {"growth_rate" : True, 'point':-1}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": ">",
+        "threshold": 0.15,
+        "period": "1Y",
+        "description": "毛利率 最新一期增速 > 15% 1Y"
+    },    
+    # 应收帐款+应收票据增速/净利润增速
+    {
+        "fields":
+            [
+                {
+                    "name": ["acct_rcv", "notes_rcv"],
+                    "params": {'dfarithmetic': ['+'], 'growth_rate': True, 'mean': True}
+                },
+                {
+                    "name": ["net_profit_is"],
+                    "params": {"point": -1} # 拿出最新值
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "sgn": "<",
+        "threshold": 1,
+        "period": "3Y",
+        "description": "(应收帐款 + 应收票据)3Y年均增速 < 净利润增速"
+    },
+    # OCF增长率
+    {
+        "fields":
+            [
+                {
+                    "name": ["net_cash_flows_oper_act"],
+                    "params": {'growth_rate': True}
+                },
+                {
+                    "name": ["grossprofitmargin"],
+                    "params": {'growth_rate': True} 
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.5)'},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "经营性现金流增速 > 50%扣非净利润增速 3Y"
+    },
+    # 每股净现金流
+    {
+        "fields":
+            [
+                {
+                    # 每股现金流净额
+                    "name": ["cfps"],
+                    "params": {"all" : "(calculate_df > 0)"}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "扣非净利润 复合增速 > 15% 3Y"
+    },    
+    # 研发支出占比
+    {
+        "fields":
+            [
+                {
+                    "name": ["stmnote_rdexp_capital"],
+                    "params": {}
+                },
+                {
+                    "name": ["oper_rev"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "资本化研发支出/营业收入 > 8% 3Y"
+    },
+    # 研发支出占比
+    {
+        "fields":
+            [
+                {
+                    "name": ["stmnote_rdexp_capital"],
+                    "params": {}
+                },
+                {
+                    "name": ["oper_rev"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df < 0.15)"},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "资本化研发支出/营业收入 < 15% 3Y"
+    },
+    # 审计意见
+    {
+        "fields":
+            [
+                {
+                    "name": ["stmnote_audit_category"],
+                    "params": {"all": "((calculate_df=='标准无保留意见')|(calculate_df=='带强调事项段的无保留意见'))"}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "审计意见 全部无保留 3Y"
+    },
+    # 应收帐款+票据 与 营收增速
+    {
+        "fields":
+            [
+                {
+                    "name": ["acct_rcv", "notes_rcv"],
+                    "params": {'dfarithmetic': ['+'], 'growth_rate': True, 'mean': True}
+                },
+                {
+                    "name": ["oper_rev"],
+                    "params": {'growth_rate': True, 'mean': True}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "sgn": "<",
+        "threshold": 1.5,
+        "period": "3Y",
+        "description": "(应收账款+应收票据) 增速均值 < 营收1.5倍 增速均值 3Y"
+    },   
+    # 商誉 
+    {
+        "fields":
+            [
+                {
+                    "name": ["goodwill", "tot_equity"],
+                    "params": {'dfarithmetic': ['/'], 'point': -1}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "<",
+        "threshold": 0.3,
+        "period": "1Y",
+        "description": "商誉/净资产 近一年值 <30% 1Y"
+    },
+    # PEG and PB
+    {
+        "fields":
+            [
+                {
+                    # PE
+                    "name": ["pe", "net_profit_is"],
+                    "params": {'dfarithmetic': ['/'], 'growth_rate': True, 'point': -1, 'all': "(calculate_df < 2.5)"}
+                },
+                {
+                    # PB
+                    "name": ["pb"],
+                    "params": {'point': -1, 'all': "(calculate_df < 15)"}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['*']},
+        "sgn": "==",
+        "threshold": True,
+        "period": "1Y",
+        "description": "PE/净利润<2.5 and PB < 15 1Y"
+    }    
 ]
 
 
@@ -349,20 +349,20 @@ score_procedure = [
     
     
         ############################################## the code below this line is old version 
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["deductedprofit"],
-    #                 "params": {'growth_rate': True, 'mean': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "how": "ascending",
-    #     "period": "1Y",
-    #     "weight": 0.15,
-    #     "description": "扣非净利润 增速均值 3Y"
-    # },
+    {
+        "fields":
+            [
+                {
+                    "name": ["deductedprofit"],
+                    "params": {'growth_rate': True, 'mean': True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "how": "ascending",
+        "period": "1Y",
+        "weight": 0.15,
+        "description": "扣非净利润 增速均值 3Y"
+    },
     # {
     #     "fields":
     #         [
@@ -425,20 +425,20 @@ score_procedure = [
     # },
 ############################################## the code before this line is old version 
 
-    {
-        "fields":
-            [
-                {
-                    "name": ["est_stdnetprofit"],
-                    "params": {}
-                }
-            ],
-        "fields_arithmetic": {},
-        "how": "ascending",
-        "period": "1Y",
-        "weight": 0.15,
-        "description": "净利润增速一致预期 1Y"
-    },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["est_stdnetprofit"],
+    #                 "params": {}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "how": "ascending",
+    #     "period": "1Y",
+    #     "weight": 0.15,
+    #     "description": "净利润增速一致预期 1Y"
+    # },
 ]
 
 # 实例化股票池
