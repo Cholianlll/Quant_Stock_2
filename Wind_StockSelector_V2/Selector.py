@@ -159,7 +159,7 @@ def calculate(df_list, description, **kwargs):
         # input: kwargs["compound_growth_rate"] = True
         # ! 待验证
             # drop the first columns since the calculate_df will return term+1 data, 
-            calculate_df = calculate_df[:,1:]
+            calculate_df = calculate_df.iloc[:,1:]
 
             # -1: calculate the count of year, give three columns, there are only two years.
             cols = calculate_df.shape[1]-1
