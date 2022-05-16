@@ -14,3 +14,9 @@ update the database
 update the database
 
 est_stdnetprofit some problem with this kinds of data. therefore we need to handle with it again.
+
+
+2022 0516 :
+debug for compound return
+
+the returning data is "nan" from wind,
