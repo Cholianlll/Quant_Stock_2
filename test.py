@@ -7,6 +7,21 @@ w.start(waitTime=60)  # 启动API 默认命令超时时间为120秒，如需设�
 
 # 筛选条件
 filter_procedure = [
+        # EBITDA
+    {
+        "fields":
+            [
+                {
+                    "name": ["ebitda"],
+                    "params": {"all": "(calculate_df>0)"}
+                }
+            ],
+        "fields_arithmetic": {},
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "EBITDA 全部大于零 3Y"
+    },
     
 ]
 
