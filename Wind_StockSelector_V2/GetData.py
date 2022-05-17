@@ -64,16 +64,6 @@ class StockData:
         cursor.execute(sql)
         column_names = [t[0] for t in cursor.fetchall()]  # 列名
         
-        # ! start this is for temporary debugging############
-        
-        ''' since the above function will detect the columns existing, 
-        therefore, non-admin user can not attend the table column,
-        we should add columns manually'''
-        
-        # if column_names == []:
-        #     column_names = ['debttoassets','deductedprofit']
-            
-        # ! end #########################################
         # 若field对应列名不存在，在TABLE中加入此列
         if field.lower() not in column_names:
             sql = """ALTER TABLE stockdata ADD %s double precision;""" % field
@@ -228,8 +218,9 @@ class StockData:
                              "field": Wind_data.index.name,  # 指标名称
                              "value": Wind_data.iloc[dates.index(date), stock_codes.index(code)]  # 数值
                              }
-                if np.isnan(data_dict["value"]):  # 如果获取的数值为空值None，则转换为空值Nan，以便区分
-                    # BUG WIND可能返回nan，(numpy的空值)
+                if data_dict["value"] and np.isnan(data_dict["value"]):  # 如果获取的数值为空值None，则转换为空值Nan，以便区分
+                    # BUG WIND可能返回nan 或者None, we need to transfer the nan into None
+                    # BUG make sure not theh None then judge the nan.
                     data_dict["value"] = Nones
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 

@@ -346,103 +346,115 @@ filter_procedure = [
 
 # 评分条件
 score_procedure = [
-    
-    
-        ############################################## the code below this line is old version 
+
+    #万德一致预测（指定年度）-预测净利润标准差
     {
         "fields":
             [
                 {
-                    "name": ["deductedprofit"],
-                    "params": {'growth_rate': True, 'mean': True}
+                    "name": ["est_stdnetprofit"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {},
+        "how": "descending",
+        "period": "1Y",
+        "weight": 0.15,
+        "description": "万德一致预测 净利润标准差"
+    },
+
+    #万德一致预测（指定年度）-预测营业收入标准差
+    {
+        "fields":
+            [
+                {
+                    "name": ["est_stdsales"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {},
+        "how": "descending",
+        "period": "1Y",
+        "weight": 0.15,
+        "description": "万德一致预测 营业收入标准差"
+    },
+    
+    #ROE
+    {
+        "fields":
+            [
+                {
+                    "name": ["roe"],
+                    "params": {'growth_rate': True, 'mean': True,}
                 }
             ],
         "fields_arithmetic": {},
         "how": "ascending",
-        "period": "1Y",
+        "period": "3Y",
         "weight": 0.15,
-        "description": "扣非净利润 增速均值 3Y"
+        "description": "ROE 3Y"
     },
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["grossprofitmargin"],
-    #                 "params": {'mean': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "how": "ascending",
-    #     "period": "3Y",
-    #     "weight": 0.15,
-    #     "description": "毛利率 3Y"
-    # },
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["selling_dist_exp", "gerl_admin_exp", "fin_exp_is"],
-    #                 "params": {'dfarithmetic': ['+', '+'], 'growth_rate': True, 'mean': True}
-    #             },
-    #             {
-    #                 "name": ["oper_rev"],
-    #                 "params": {'growth_rate': True, 'mean': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {'dfarithmetic': ['/']},
-    #     "how": "descending",
-    #     "period": "3Y",
-    #     "weight": 0.1,
-    #     "description": "费用增速均值/营收增速均值 3Y"
-    # },
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["fcff"],
-    #                 "params": {'growth_rate': True, 'mean': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "how": "ascending",
-    #     "period": "5Y",
-    #     "weight": 0.15,
-    #     "description": "FCF增速均值 5Y"
-    # },
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["peg"],
-    #                 "params": {'mean': True}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "how": "descending",
-    #     "period": "3Y",
-    #     "weight": 0.35,
-    #     "description": "PEG_ttm 平均值 3Y"
-    # },
-############################################## the code before this line is old version 
-
-    # {
-    #     "fields":
-    #         [
-    #             {
-    #                 "name": ["est_stdnetprofit"],
-    #                 "params": {}
-    #             }
-    #         ],
-    #     "fields_arithmetic": {},
-    #     "how": "ascending",
-    #     "period": "1Y",
-    #     "weight": 0.15,
-    #     "description": "净利润增速一致预期 1Y"
-    # },
+    
+    # 费用增速均值/营收增速均值 3Y
+    {
+        "fields":
+            [
+                {
+                    "name": ["selling_dist_exp", "gerl_admin_exp", "fin_exp_is"],
+                    "params": {'dfarithmetic': ['+', '+'], 'growth_rate': True, 'mean': True}
+                },
+                {
+                    "name": ["oper_rev"],
+                    "params": {'growth_rate': True, 'mean': True}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "how": "descending",
+        "period": "3Y",
+        "weight": 0.1,
+        "description": "费用增速均值/营收增速均值 3Y"
+    },
+    
+    # FCF (PPT中的公式): 息前税后营业利润+折旧与摊销-资本支出 (购建固定资产、无形资产支付的现金)
+    {
+        "fields":
+            [
+                {
+                    "name": ["noplat",'wgsd_dep_exp_of','cash_pay_acq_const_fiolta'],
+                    "params": {'dfarithmetic': ['+', '-'], 'growth_rate': True, 'mean': True}
+                }
+            ],
+        "fields_arithmetic": {},
+        "how": "ascending",
+        "period": "3Y",
+        "weight": 0.1,
+        "description": "FCF增速均值 3Y"
+    },
+    # PEG/净利润同比增速(wind一致预测)
+    {
+        "fields":
+            [
+                {
+                    "name": ["peg"],
+                    "params": {}
+                },
+                {
+                    "name": ["est_yoynetprofit"],
+                    "params": {}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "how": "descending",
+        "period": "1Y",
+        "weight": 0.35,
+        "description": "PEG/净利润同比增速(wind一致预测) 1Y"
+    },
+    
 ]
 
 # 实例化股票池
-operate_date = "2017-05-01"
+# operate_date = "2017-05-01"
+operate_date = "2022-05-16"
 pool = Stock_pool()
 pool.get_constituent(operate_date, "a001010100000000")  # 获取当年成分股
 

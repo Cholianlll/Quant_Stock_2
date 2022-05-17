@@ -2,6 +2,20 @@ reminder:
 
 GetData.py
 58 - 67 lines
+
+```
+# ! start this is for temporary debugging############
+
+''' since the above function will detect the columns existing, 
+therefore, non-admin user can not attend the table column,
+we should add columns manually'''
+
+# if column_names == []:
+#     column_names = ['debttoassets','deductedprofit']
+    
+# ! end #########################################
+```
+
 need to delete once getting a database account for obtaining the columns in database.
 
 20220425:
@@ -17,6 +31,13 @@ est_stdnetprofit some problem with this kinds of data. therefore we need to hand
 
 
 2022 0516 :
-debug for compound return
+1. debug for compound return
 
-the returning data is "nan" from wind,
+e.g:
+{'stock_code': '603081.SH', 'date': datetime.date(2013, 12, 31), 'field': 'ebitda', 'value': None}
+
+the returning data is "nan" from wind, we need transfer it into the None to be inserted into the Mysql database
+
+2. shrink the database to 65 rows, see the constituents_all
+
+3. change the date with "2022-05-16", the original date is "2017-05-01"
