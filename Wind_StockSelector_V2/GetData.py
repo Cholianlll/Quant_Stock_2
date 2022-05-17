@@ -221,7 +221,7 @@ class StockData:
                 if data_dict["value"] and np.isnan(data_dict["value"]):  # 如果获取的数值为空值None，则转换为空值Nan，以便区分
                     # BUG WIND可能返回nan 或者None, we need to transfer the nan into None
                     # BUG make sure not theh None then judge the nan.
-                    data_dict["value"] = Nones
+                    data_dict["value"] = None
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 
         # 将列表中的每组信息保存到SQL中
