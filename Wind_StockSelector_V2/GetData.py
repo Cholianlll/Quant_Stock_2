@@ -30,6 +30,11 @@ conn = pymysql.connect(db="Wind", user="cholian", password="123Q456w",
 
 cursor = conn.cursor()
 
+# for pandas to sql
+from sqlalchemy import create_engine
+
+engine = create_engine('mysql+pymysql://cholian:123Q456w@43.132.196.216/Wind', echo=False)
+
 
 class StockData:
 
@@ -218,42 +223,55 @@ class StockData:
                              "field": Wind_data.index.name,  # 指标名称
                              "value": Wind_data.iloc[dates.index(date), stock_codes.index(code)]  # 数值
                              }
+                
                 if data_dict["value"] and np.isnan(data_dict["value"]):  # 如果获取的数值为空值None，则转换为空值Nan，以便区分
                     # BUG WIND可能返回nan 或者None, we need to transfer the nan into None
                     # BUG make sure not theh None then judge the nan.
                     data_dict["value"] = None
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 
-        # 将列表中的每组信息保存到SQL中
-        for data_dict in data_list:
-            print(data_dict)
-            # 查询表中每行stock_code-date
-            sql = """SELECT stock_code,date FROM stockdata;"""
-            cursor.execute(sql)
-            code_dates = [t for t in cursor.fetchall()]
-            # 若stock_code-date不存在，则INSERT INTO整个data_dict作为一条新数据
-            if (data_dict["stock_code"], data_dict["date"]) not in code_dates:
-                sql = """INSERT INTO stockdata (stock_code,date,""" + data_dict[
-                    "field"] + """) VALUES (%s,%s,%s);"""
-                params = (data_dict["stock_code"], data_dict["date"], data_dict["value"])
+        
+        # # Versison 1: write the data with pandas dataframe
+        df = pd.DataFrame(data_list)
+        print(f'正在写入数据库：{df.field[0]}')
+        df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
+        df.to_sql('stock_data', con = engine,if_exists = 'append',index = False)
+        print(f'数据库更新成功！：{df.field[0]}')
+        
+
+        # # Version 2 : wrote the data row by row.
+        # # 将列表中的每组信息保存到SQL中
+        # for data_dict in data_list:
+        #     print(data_dict)
+        #     # 查询表中每行stock_code-date
+        #     sql = """SELECT stock_code,date FROM stockdata;"""
+        #     cursor.execute(sql)
+        #     code_dates = [t for t in cursor.fetchall()]
+        #     # 若stock_code-date不存在，则INSERT INTO整个data_dict作为一条新数据
+        #     if (data_dict["stock_code"], data_dict["date"]) not in code_dates:
+        #         sql = """INSERT INTO stockdata (stock_code,date,""" + data_dict[
+        #             "field"] + """) VALUES (%s,%s,%s);"""
+        #         params = (data_dict["stock_code"], data_dict["date"], data_dict["value"])
                 
-                cursor.execute(sql, params)
-                conn.commit()
-            # 若code-date存在，则检查code-date-field是否存在
-            else:
-                sql = "SELECT " + data_dict["field"] + " FROM stockdata WHERE " \
-                    "stock_code=" + "('" + data_dict["stock_code"] + "')" + " and " \
-                    "date=" + "('" + datetime.datetime.strftime(data_dict["date"],"%Y-%m-%d") + "');"
-                cursor.execute(sql)
-                value = cursor.fetchone()[0]  # 取到的单元格value
-                if value == data_dict["value"]:  # 若现有值存在且一致，跳过
-                    pass
-                else:  # 若现有值为空，或现有值存在但不一致：更新值
-                    sql = """UPDATE stockdata SET """ + data_dict[
-                        "field"] + """ = %s WHERE stock_code=%s AND date=%s;"""
-                    params = (data_dict["value"], data_dict["stock_code"], data_dict["date"])
-                    cursor.execute(sql, params)
-                    conn.commit()
+        #         cursor.execute(sql, params)
+        #         conn.commit()
+        #     # 若code-date存在，则检查code-date-field是否存在
+        #     else:
+        #         sql = "SELECT " + data_dict["field"] + " FROM stockdata WHERE " \
+        #             "stock_code=" + "('" + data_dict["stock_code"] + "')" + " and " \
+        #             "date=" + "('" + datetime.datetime.strftime(data_dict["date"],"%Y-%m-%d") + "');"
+        #         cursor.execute(sql)
+        #         value = cursor.fetchone()[0]  # 取到的单元格value
+        #         if value == data_dict["value"]:  # 若现有值存在且一致，跳过
+        #             pass
+        #         else:  # 若现有值为空，或现有值存在但不一致：更新值
+        #             sql = """UPDATE stockdata SET """ + data_dict[
+        #                 "field"] + """ = %s WHERE stock_code=%s AND date=%s;"""
+        #             params = (data_dict["value"], data_dict["stock_code"], data_dict["date"])
+        #             cursor.execute(sql, params)
+        #             conn.commit()
+        
+        
 
 
 class ConstituentsData():
