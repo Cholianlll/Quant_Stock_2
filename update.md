@@ -41,3 +41,7 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 2. shrink the database to 65 rows, see the constituents_all
 
 3. change the date with "2022-05-16", the original date is "2017-05-01"
+
+4. can not use the small size database because of stocks will be filtered all out.
+
+5. the first step is to build the complete database for the whole 2022 0516 day data.
