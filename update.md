@@ -45,3 +45,10 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 4. can not use the small size database because of stocks will be filtered all out.
 
 5. the first step is to build the complete database for the whole 2022 0516 day data.
+
+2022 0517：
+
+1. compound growth rate error: all is inf
+2. added a second version of writing mysql in GetData
+
+

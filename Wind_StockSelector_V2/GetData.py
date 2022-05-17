@@ -236,7 +236,7 @@ class StockData:
         print(f'正在写入数据库：{df.field[0]}')
         df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
         df.to_sql('stock_data', con = engine,if_exists = 'append',index = False)
-        print(f'数据库更新成功！：{df.field[0]}')
+        print(f'数据库更新成功')
         
 
         # # Version 2 : wrote the data row by row.
