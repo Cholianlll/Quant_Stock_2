@@ -275,7 +275,7 @@ class StockData:
 
         if df.field[0] in result:
             
-            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
+            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = False)
             print(f'数据库更新成功')
             
         else: 
@@ -283,7 +283,7 @@ class StockData:
             sql = f"""alter table stockdata add {df.field[0]} double; """
             cursor.execute(sql)
 
-            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
+            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = False)
             print(f'数据库更新成功')
         
 
