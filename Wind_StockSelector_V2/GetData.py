@@ -265,12 +265,26 @@ class StockData:
         # # Versison 1: write the data with pandas dataframe directly.
         df = pd.DataFrame(data_list)
         print(f'正在写入数据库：{df.field[0]}')
+        sql_df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
         
-        
-        
-        df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
-        df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
-        print(f'数据库更新成功')
+        # Check whether there esixts a column
+        sql = """select column_name 
+                    from information_schema.columns 
+                    where table_schema = Database() and table_name = 'stockdata';"""
+        result = pd.read_sql(sql, con=engine).values.reshape(1,-1)[0]
+
+        if df.field[0] in result:
+            
+            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
+            print(f'数据库更新成功')
+            
+        else: 
+            print('添加列到数据库')
+            sql = f"""alter table stockdata add {df.field[0]} double; """
+            cursor.execute(sql)
+
+            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
+            print(f'数据库更新成功')
         
 
         # # Version 2 : wrote the data row by row.
