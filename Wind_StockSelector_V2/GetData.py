@@ -171,16 +171,47 @@ class StockData:
                              stock_code[int(2 * len(stock_code) / 3):]]
             Wind_data_dfs = []
             for codes in codes_package:
-                status_code, Wind_data = w.wsd(codes=codes, beginTime=begin_date, endTime=end_date, fields=field,
-                                               Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
-                                               ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True)
+                
+                ## 如果是预测相关的数据（e.g: est_stdnetprofit），在获取的时候，需要额外的特殊参数“year”，即预测的年度，否则返回值全部为None
+                if field.startswith('est_'):
+                   
+                    # now_time = "2022-12-31",确保一定是最新时间，当年最后一天
+                    now_time = datetime.date(datetime.date.today().year, 12, 31).strftime("%Y-%m-%d")
+                    # year = 2022, 为预测的年度
+                    year = datetime.date.today().year
+                    
+                    status_code, Wind_data = w.wsd(codes=stock_code, beginTime=begin_date, endTime=now_time, fields=field,
+                                                                Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
+                                                                ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True, year=year)
+                ## 非预测相关的数据则正常使用下列函数进行获取
+                else:
+                    status_code, Wind_data = w.wsd(codes=codes, beginTime=begin_date, endTime=end_date, fields=field,
+                                                Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
+                                                ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True)
+                    
                 Wind_data_dfs.append(Wind_data)  # 保存所有的package
             self.Wind_data = pd.concat(Wind_data_dfs, axis=1)  # 合并所有的package
             self.Wind_data.index.name = field
+            
         else:  # 否则一起请求数据
-            status_code, self.Wind_data = w.wsd(codes=stock_code, beginTime=begin_date, endTime=end_date, fields=field,
-                                                Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
-                                                ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True)
+            
+            ## 如果是预测相关的数据（e.g: est_stdnetprofit），在获取的时候，需要额外的特殊参数“year”，即预测的年度，否则返回值全部为None
+            if field.startswith('est_'):
+                
+                # now_time = "2022-12-31",确保一定是最新时间，当年最后一天
+                now_time = datetime.date(datetime.date.today().year, 12, 31).strftime("%Y-%m-%d")
+                # year = 2022, 为预测的年度
+                year = datetime.date.today().year
+                
+                status_code, self.Wind_data = w.wsd(codes=stock_code, beginTime=begin_date, endTime=now_time, fields=field,
+                                                            Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
+                                                            ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True, year=year)
+            
+            else: 
+                status_code, self.Wind_data = w.wsd(codes=stock_code, beginTime=begin_date, endTime=end_date, fields=field,
+                                                    Period=term, Days=days, Fill=fill, PriceAdj="F", zoneType=1, rptType=1,
+                                                    ruleType=2, gRateType=1, returnType=1, unit=1, usedf=True)
+            
             self.Wind_data.index.name = field
 
         # 统一Wind_data格式：index为日期列表，column为股票代码列表
@@ -231,11 +262,11 @@ class StockData:
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 
         
-        # # Versison 1: write the data with pandas dataframe
+        # # Versison 1: write the data with pandas dataframe directly.
         df = pd.DataFrame(data_list)
         print(f'正在写入数据库：{df.field[0]}')
         df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
-        df.to_sql('stock_data', con = engine,if_exists = 'append',index = False)
+        df.to_sql('stockdata', con = engine, if_exists = 'append',index = False)
         print(f'数据库更新成功')
         
 
