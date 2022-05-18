@@ -50,5 +50,7 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 
 1. compound growth rate error: all is inf
 2. added a second version of writing mysql in GetData
+3. pandas to sql can not insert the data if no such a column exists.
+
 
 
