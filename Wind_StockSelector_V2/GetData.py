@@ -265,8 +265,11 @@ class StockData:
         # # Versison 1: write the data with pandas dataframe directly.
         df = pd.DataFrame(data_list)
         print(f'正在写入数据库：{df.field[0]}')
+        
+        
+        
         df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
-        df.to_sql('stockdata', con = engine, if_exists = 'append',index = False)
+        df.to_sql('stockdata', con = engine, if_exists = 'append',index = True)
         print(f'数据库更新成功')
         
 

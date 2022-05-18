@@ -24,7 +24,7 @@ mysql database structure
 Wind
 -stockdata
     --stock_code varchar(64)
-    --date  datetime
+    --date  datetime? date?
 -pg_tables
     --tablename  varchar(255)
 -constituents
@@ -36,6 +36,18 @@ Wind
     
 Query:
 create database Wind;
+
+create table stockdata(
+    stock_code varchar(64) not null,
+    date date not null,
+    primary key (stock_code,date)
+);
+
+create table stockdata(
+    sectorid  varchar(20) not null,
+    date date not null,
+    primary key (stock_code,date)
+);
     
     
 database account privilege: needed to be administrator
@@ -353,7 +365,7 @@ score_procedure = [
             [
                 {
                     "name": ["est_stdnetprofit"],
-                    "params": {}
+                    "params": {'point': -1}
                 }
             ],
         "fields_arithmetic": {},
