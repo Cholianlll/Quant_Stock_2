@@ -279,11 +279,8 @@ class StockData:
             print(f'数据库更新成功')
             
         else: 
-            print('添加列到数据库')
-            sql = f"""alter table stockdata add {df.field[0]} double; """
-            cursor.execute(sql)
-
-            sql_df.to_sql('stockdata', con = engine, if_exists = 'append',index = False)
+            print('当前数据库没有该指标数据，需要重新为数据库中添加新指标')
+            save_new_col_to_sql(sql_df)
             print(f'数据库更新成功')
         
 
@@ -318,6 +315,20 @@ class StockData:
         #             params = (data_dict["value"], data_dict["stock_code"], data_dict["date"])
         #             cursor.execute(sql, params)
         #             conn.commit()
+        
+    def save_new_col_to_sql(sql_df):
+            
+        # read all the data from the database
+        sql = 'select * from stockdata'
+        tmp_df = pd.read_sql(sql,con=engine)
+        sql_df.date = pd.to_datetime(sql_df.date)
+        tmp_df.date = pd.to_datetime(tmp_df.date)
+        
+        # merge the new columns to existing data (Mysql did not support add new columns directly)
+        sql_df = sql_df.merge(tmp_df,on = ['stock_code','date'], how = 'outer')
+        
+        # save to mysql
+        sql_df.to_sql('stockdata', con = engine, if_exists = 'replace',index = False)
         
         
 

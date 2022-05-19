@@ -55,3 +55,9 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 5. stockdata 中应该是date还是datetime？
 
 
+2022 0518: 
+
+1. add a verification on the column because the pandas can not append to the database if no such column exists.
+2. change the new type of writing new columns to the database.
+
+
