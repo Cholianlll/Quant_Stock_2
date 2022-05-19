@@ -176,7 +176,7 @@ filter_procedure = [
                 # 第一年 ROA
                 {
                     "name": ["roa"],
-                    "params": {"arithmetic" : '.apply(lambda x: x > calculate_df.iloc[:,-3] * 1.05, axis = 0)', 'point': -1}
+                    "params": {"function" : 'lambda x: x > calculate_df.iloc[:,-3] * 1.05, axis = 0', 'point': -1}
                 },
                 # 资产同比增长率 > 30%
                 {

@@ -64,5 +64,6 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 
 2022 0519: 
 1. change the datetime with date.
+2. distinct the rows in the database.
 
 

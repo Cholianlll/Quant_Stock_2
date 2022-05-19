@@ -153,7 +153,10 @@ def calculate(df_list, description, **kwargs):
         # 忽略最早一期数据
         if k == "omit_first":
             calculate_df = calculate_df.iloc[:, 1:]
-            
+        # 忽略最早一期数据
+        if k == 'function':
+            calculate_df = eval(f'calculate_df.apply({kwargs["arithmetic"]})')
+             
         # 取复合增速  
         if k == 'compound_growth_rate' and kwargs["compound_growth_rate"] : 
         # input: kwargs["compound_growth_rate"] = True
