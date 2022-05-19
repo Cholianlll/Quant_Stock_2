@@ -157,7 +157,7 @@ def calculate(df_list, description, **kwargs):
         # 取复合增速  
         if k == 'compound_growth_rate' and kwargs["compound_growth_rate"] : 
         # input: kwargs["compound_growth_rate"] = True
-        # ! 待验证
+        
             # drop the first columns since the calculate_df will return term+1 data, 
             calculate_df = calculate_df.iloc[:,1:]
 

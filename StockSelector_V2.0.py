@@ -63,37 +63,86 @@ w.start(waitTime=60)  # 启动API 默认命令超时时间为120秒，如需设�
 # 筛选条件
 filter_procedure = [
     
-    # 资产负债率
+    # 资产负债率 + 特定条件
     {
         "fields":
             [
                 {
                     "name": ["debttoassets"],
-                    "params": {'point': -1}
-                }
+                    "params": {'arithmetic': '<60'}
+                },
+                {
+                    "name": ["yoy_assets"],
+                    "params": {'arithmetic': '>30'}
+                },
+                {
+                    "name": ["yoy_equity"],
+                    "params": {'arithmetic': '>20'}
+                },
             ],
-        "fields_arithmetic": {},
-        "sgn": "<",
-        "threshold": 60,
+        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+        "sgn": "==",
+        "threshold": 1,
         "period": "1Y",
-        "description": "负债率 < 60% 1Y"
+        "description": "负债率 <60% 1Y (资产大规模增长除外)"
     },
-
-    # 营业收入
+    
+    # # 资产负债率
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["debttoassets"],
+    #                 "params": {'point': -1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "sgn": "<",
+    #     "threshold": 60,
+    #     "period": "1Y",
+    #     "description": "负债率 < 60% 1Y"
+    # },
+    
+        # 营业收入 + 特定条件
     {
         "fields":
             [
                 {
                     "name": ["oper_rev"],
-                    "params": {"compound_growth_rate" : True}
-                }
+                    "params": {"compound_growth_rate" : True, 'arithmetic': '> 0.15'}
+                },
+                {
+                    "name": ["yoy_assets"],
+                    "params": {'arithmetic': '>30', 'point': -1}
+                },
+                {
+                    "name": ["yoy_equity"],
+                    "params": {'arithmetic': '>20','point': -1}
+                },
             ],
-        "fields_arithmetic": {},
-        "sgn": ">",
-        "threshold": 0.15,
+        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+        "sgn": "==",
+        "threshold": 1,
         "period": "3Y",
-        "description": "营业收入 复合增速 > 15% 3Y"
+        "description": "营业收入 复合增速 > 15% 3Y (资产大规模增长除外)"
     },
+    
+    
+    # # 营业收入
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {"compound_growth_rate" : True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "sgn": ">",
+    #     "threshold": 0.15,
+    #     "period": "3Y",
+    #     "description": "营业收入 复合增速 > 15% 3Y"
+    # },
 
     # EBITDA
     {
@@ -102,13 +151,14 @@ filter_procedure = [
                 {
                     "name": ["ebitda"],
                     "params": {"all": "(calculate_df>0)"}
-                }
+                },
+                
             ],
         "fields_arithmetic": {},
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "EBITDA 全部大于零 3Y"
+        "description": "EBITDA-1 全部大于零 3Y"
     },
     {
         "fields":
@@ -122,7 +172,7 @@ filter_procedure = [
         "sgn": ">",
         "threshold": 0.1,
         "period": "3Y",
-        "description": "EBITDA 复合增速 > 10% 3Y"
+        "description": "EBITDA-2 复合增速 > 10% 3Y"
     },
     
     # 扣非净利润
@@ -153,7 +203,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "扣非净利润 复合增速 > 15% 3Y"
+        "description": "ROA 近三年均为正 3Y"
     },
     # 总资产周转率+净利率
     {
@@ -206,7 +256,7 @@ filter_procedure = [
             ],
         "fields_arithmetic": {'dfarithmetic': ['/']},
         "sgn": "<",
-        "threshold": 1,
+        "threshold": 0.667,
         "period": "3Y",
         "description": "(应收帐款 + 应收票据)3Y年均增速 < 净利润增速"
     },

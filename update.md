@@ -62,3 +62,7 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 3. finished the database
 
 
+2022 0519: 
+1. change the datetime with date.
+
+
