@@ -267,7 +267,7 @@ class StockData:
         print(f'正在写入数据库：{df.field[0]}')
         sql_df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
         
-        new_col = self.check_col_new(col)
+        new_col = self.check_col_new(df.field[0])
 
         if not new_col:
             
@@ -327,8 +327,18 @@ class StockData:
         # merge the new columns to existing data (Mysql did not support add new columns directly)
         sql_df = sql_df.merge(tmp_df,on = ['stock_code','date'], how = 'outer')
         
+        # pandas de "replace" 参数drop table的速度太慢了，因此这里单独drop掉原来的table然后再添加
+        sql = 'drop table stockdata;'
+        cursor.execute(sql)
+        conn.commit()
+        
         # save to mysql
-        sql_df.to_sql('stockdata', con = engine, if_exists = 'replace',index = False)
+        sql_df.to_sql('stockdata', con = engine,index = False)
+        
+        # change the datatime into date.
+        sql = 'alter table wind.stockdata modify date date;'
+        cursor.execute(sql)
+        conn.commit()
         
     def check_col_new(self,col):
         # 简单判断一下是否是一个全空的列，如果non-null值的count等于整个table的长度，就是代表这个col是一个全新的指标
