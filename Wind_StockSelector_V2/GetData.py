@@ -267,37 +267,7 @@ class StockData:
         print(f'正在写入数据库：{df.field[0]}')
         sql_df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
         
-        ######################## 补丁函数 #############################   
-        def save_new_col_to_sql(sql_df,col):
-            # 数据库合并逻辑，第一版的数据库写入是一条一条的，非常慢，这里将所有的数据抽出来，然后本地合并，通过pandas一块写进去，非常快。
-                
-            # read all the data from the database
-            sql = 'select * from stockdata; '
-            tmp_df = pd.read_sql(sql,con=engine)
-            # BUG : mysql 返回值会有一列空的数据，我这里因为确实不想改前面的屎山了，于是我这里就把返回的那一列空值删去了
-            tmp_df = tmp_df.drop(col,axis = 1)
-            sql_df.date = pd.to_datetime(sql_df.date)
-            tmp_df.date = pd.to_datetime(tmp_df.date)
-            
-            # merge the new columns to existing data (Mysql did not support add new columns directly)
-            sql_df = sql_df.merge(tmp_df,on = ['stock_code','date'], how = 'outer')
-            
-            # save to mysql
-            sql_df.to_sql('stockdata', con = engine, if_exists = 'replace',index = False)
-            
-        def check_col_new(col):
-            # 简单判断一下是否是一个全空的列，如果non-null值的count等于整个table的长度，就是代表这个col是一个全新的指标
-            sql = f'select count(*) from stockdata where {col} is null;'
-            new_col_count = pd.read_sql(sql,con=engine).values[0][0]
-            
-            sql = 'select count(*) from stockdata;'
-            all_count = pd.read_sql(sql,con=engine).values[0][0]
-            
-            return True if new_col_count == all_count else False
-
-        ######################## 补丁函数 ############################# 
-        
-        new_col = check_col_new(col)
+        new_col = self.check_col_new(col)
 
         if not new_col:
             
@@ -306,7 +276,7 @@ class StockData:
             
         else: 
             print('当前数据库没有该指标数据，需要重新为数据库中添加新指标')
-            save_new_col_to_sql(sql_df, col = df.field[0])
+            self.save_new_col_to_sql(sql_df, col = df.field[0])
             print(f'数据库更新成功')
         
 
@@ -342,7 +312,34 @@ class StockData:
         #             cursor.execute(sql, params)
         #             conn.commit()
         
-
+    ######################## 补丁函数 #############################   
+    def save_new_col_to_sql(self,sql_df,col):
+        # 数据库合并逻辑，第一版的数据库写入是一条一条的，非常慢，这里将所有的数据抽出来，然后本地合并，通过pandas一块写进去，非常快。
+            
+        # read all the data from the database
+        sql = 'select * from stockdata; '
+        tmp_df = pd.read_sql(sql,con=engine)
+        # BUG : mysql 返回值会有一列空的数据，我这里因为确实不想改前面的屎山了，于是我这里就把返回的那一列空值删去了
+        tmp_df = tmp_df.drop(col,axis = 1)
+        sql_df.date = pd.to_datetime(sql_df.date)
+        tmp_df.date = pd.to_datetime(tmp_df.date)
+        
+        # merge the new columns to existing data (Mysql did not support add new columns directly)
+        sql_df = sql_df.merge(tmp_df,on = ['stock_code','date'], how = 'outer')
+        
+        # save to mysql
+        sql_df.to_sql('stockdata', con = engine, if_exists = 'replace',index = False)
+        
+    def check_col_new(self,col):
+        # 简单判断一下是否是一个全空的列，如果non-null值的count等于整个table的长度，就是代表这个col是一个全新的指标
+        sql = f'select count(*) from stockdata where {col} is null;'
+        new_col_count = pd.read_sql(sql,con=engine).values[0][0]
+        
+        sql = 'select count(*) from stockdata;'
+        all_count = pd.read_sql(sql,con=engine).values[0][0]
+        
+        return True if new_col_count == all_count else False
+    ######################## 补丁函数 ############################# 
         
         
         
