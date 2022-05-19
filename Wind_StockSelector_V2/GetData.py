@@ -262,7 +262,7 @@ class StockData:
                 data_list.append(data_dict)  # 将每个数据字典保存在列表中
 
         
-        # # Versison 1: write the data with pandas dataframe directly.
+        # # Versison 1: write the data with pandas dataframe directly. for cloud server
         df = pd.DataFrame(data_list)
         print(f'正在写入数据库：{df.field[0]}')
         sql_df = df.rename(columns={'value':df.field[0]}).drop('field',axis = 1)
@@ -280,7 +280,7 @@ class StockData:
             print(f'数据库更新成功')
         
 
-        # # Version 2 : wrote the data row by row.
+        # # Version 2 : wrote the data row by row. for local server
         # # 将列表中的每组信息保存到SQL中
         # for data_dict in data_list:
         #     print(data_dict)
@@ -317,7 +317,7 @@ class StockData:
         # 数据库合并逻辑，第一版的数据库写入是一条一条的，非常慢，这里将所有的数据抽出来，然后本地合并，通过pandas一块写进去，非常快。
             
         # read all the data from the database
-        sql = 'select * from stockdata; '
+        sql = 'select distinct * from stockdata; '
         tmp_df = pd.read_sql(sql,con=engine)
         # BUG : mysql 返回值会有一列空的数据，我这里因为确实不想改前面的屎山了，于是我这里就把返回的那一列空值删去了
         tmp_df = tmp_df.drop(col,axis = 1)
