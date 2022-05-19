@@ -117,7 +117,7 @@ filter_procedure = [
             [
                 {
                     "name": ["ebitda"],
-                    "params": {"all": "(calculate_df>0)"}
+                    "params": {"omit_first": True, 'arithmetic': '> 0',"all": "calculate_df"}
                 },
                 {
                     "name": ["ebitda"],
@@ -176,7 +176,7 @@ filter_procedure = [
                 # 第一年 ROA
                 {
                     "name": ["roa"],
-                    "params": {"arithmetic" : ' > (calculate_df.iloc[:,-3] * 1.05)', 'point': -1}
+                    "params": {"arithmetic" : '.apply(lambda x: x > calculate_df.iloc[:,-3] * 1.05, axis = 0)', 'point': -1}
                 },
                 # 资产同比增长率 > 30%
                 {
