@@ -293,7 +293,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "扣非净利润 复合增速 > 15% 3Y"
+        "description": "每股净现金流 近三年无负值 3Y"
     },    
     # 研发支出占比
     {
@@ -314,7 +314,7 @@ filter_procedure = [
         "period": "3Y",
         "description": "资本化研发支出/营业收入 > 8% 3Y"
     },
-    # 研发支出占比
+    # 研发支出占比 有问题！！！！！
     {
         "fields":
             [
