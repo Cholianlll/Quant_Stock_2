@@ -42,6 +42,8 @@ engine = create_engine('mysql+pymysql://cholian:123Q456w@43.132.196.216/Wind', e
 print('数据库检查中')
 sql = 'select distinct * from stockdata'
 all_data = pd.read_sql(sql, con = engine)
+all_data = all_data[all_data.iloc[:,2:].any().values]
+
 
 sql = 'drop table stockdata;'
 cursor.execute(sql)
@@ -55,6 +57,7 @@ sql = 'alter table wind.stockdata modify date date;'
 cursor.execute(sql)
 conn.commit()
 print('数据库正常')
+del all_data
 ####################################### Database Setting ######################################
 
 class StockData:
