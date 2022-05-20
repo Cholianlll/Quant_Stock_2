@@ -24,7 +24,7 @@ mysql database structure
 Wind
 -stockdata
     --stock_code varchar(64)
-    --date  datetime? date?
+    --date  date
 -pg_tables
     --tablename  varchar(255)
 -constituents
@@ -63,111 +63,111 @@ w.start(waitTime=60)  # 启动API 默认命令超时时间为120秒，如需设�
 # 筛选条件
 filter_procedure = [
     
-    # 资产负债率 + 特定条件
-    {
-        "fields":
-            [
-                {
-                    "name": ["debttoassets"],
-                    "params": {'arithmetic': '<60'}
-                },
-                {
-                    "name": ["yoy_assets"],
-                    "params": {'arithmetic': '>30'}
-                },
-                {
-                    "name": ["yoy_equity"],
-                    "params": {'arithmetic': '>20'}
-                },
-            ],
-        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
-        "sgn": "==",
-        "threshold": True,
-        "period": "1Y",
-        "description": "负债率 <60% 1Y (资产大规模增长除外)"
-    },
+    # # 资产负债率 + 特定条件
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["debttoassets"],
+    #                 "params": {'arithmetic': '<60'}
+    #             },
+    #             {
+    #                 "name": ["yoy_assets"],
+    #                 "params": {'arithmetic': '>30'}
+    #             },
+    #             {
+    #                 "name": ["yoy_equity"],
+    #                 "params": {'arithmetic': '>20'}
+    #             },
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "1Y",
+    #     "description": "负债率 <60% 1Y (资产大规模增长除外)"
+    # },
     
-    # 营业收入 + 特定条件
-    {
-        "fields":
-            [
-                {
-                    "name": ["oper_rev"],
-                    "params": {"compound_growth_rate" : True, 'arithmetic': '> 0.15'}
-                },
-                {
-                    "name": ["yoy_assets"],
-                    "params": {'arithmetic': '>30', 'point': -1}
-                },
-                {
-                    "name": ["yoy_equity"],
-                    "params": {'arithmetic': '>20','point': -1}
-                },
-            ],
-        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "营业收入 复合增速 > 15% 3Y (资产大规模增长除外)"
-    },
+    # # 营业收入 + 特定条件
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {"compound_growth_rate" : True, 'arithmetic': '> 0.15'}
+    #             },
+    #             {
+    #                 "name": ["yoy_assets"],
+    #                 "params": {'arithmetic': '>30', 'point': -1}
+    #             },
+    #             {
+    #                 "name": ["yoy_equity"],
+    #                 "params": {'arithmetic': '>20','point': -1}
+    #             },
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "3Y",
+    #     "description": "营业收入 复合增速 > 15% 3Y (资产大规模增长除外)"
+    # },
 
-    # EBITDA + 特定条件
-    {
-        "fields":
-            [
-                {
-                    "name": ["ebitda"],
-                    "params": {"omit_first": True, 'arithmetic': '> 0',"all": "calculate_df"}
-                },
-                {
-                    "name": ["ebitda"],
-                    "params": {'compound_growth_rate': True, 'arithmetic': '>0.1'}
-                },
-                # 资产大规模增长
-                {
-                    "name": ["yoy_assets"],
-                    "params": {'arithmetic': '>30', 'point': -1}
-                },
-                {
-                    "name": ["yoy_equity"],
-                    "params": {'arithmetic': '>20','point': -1}
-                },                
+    # # EBITDA + 特定条件
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["ebitda"],
+    #                 "params": {"omit_first": True, 'arithmetic': '> 0',"all": "calculate_df"}
+    #             },
+    #             {
+    #                 "name": ["ebitda"],
+    #                 "params": {'compound_growth_rate': True, 'arithmetic': '>0.1'}
+    #             },
+    #             # 资产大规模增长
+    #             {
+    #                 "name": ["yoy_assets"],
+    #                 "params": {'arithmetic': '>30', 'point': -1}
+    #             },
+    #             {
+    #                 "name": ["yoy_equity"],
+    #                 "params": {'arithmetic': '>20','point': -1}
+    #             },                
                 
-            ],
-        "fields_arithmetic": {'dfarithmetic': [' & ', ' | ', ' & '], 'point': -1},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "EBITDA 三年非负，复合增速 > 10% 3Y (资产大规模增长除外)"
-    },
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': [' & ', ' | ', ' & '], 'point': -1},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "3Y",
+    #     "description": "EBITDA 三年非负，复合增速 > 10% 3Y (资产大规模增长除外)"
+    # },
     
 
     
-    # 扣非净利润 + 特定条件
-    {
-        "fields":
-            [
-                {
-                    "name": ["deductedprofit"],
-                    "params": {"compound_growth_rate" : True,'arithmetic': '> 0.1'}
-                },
-                # 资产同比增长率 > 30%
-                {
-                    "name": ["yoy_assets"],
-                    "params": {'arithmetic': '>30', 'point': -1}
-                },
-                # 净资产同比增长率 > 20%
-                {
-                    "name": ["yoy_equity"],
-                    "params": {'arithmetic': '>20','point': -1}
-                },
-            ],
-        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "扣非净利润 复合增速 > 10% 3Y (资产大规模增长除外)"
-    },
+    # # 扣非净利润 + 特定条件
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["deductedprofit"],
+    #                 "params": {"compound_growth_rate" : True,'arithmetic': '> 0.1'}
+    #             },
+    #             # 资产同比增长率 > 30%
+    #             {
+    #                 "name": ["yoy_assets"],
+    #                 "params": {'arithmetic': '>30', 'point': -1}
+    #             },
+    #             # 净资产同比增长率 > 20%
+    #             {
+    #                 "name": ["yoy_equity"],
+    #                 "params": {'arithmetic': '>20','point': -1}
+    #             },
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "3Y",
+    #     "description": "扣非净利润 复合增速 > 10% 3Y (资产大规模增长除外)"
+    # },
     
     # ROA + 特定条件
     {
@@ -176,7 +176,7 @@ filter_procedure = [
                 # 第一年 ROA
                 {
                     "name": ["roa"],
-                    "params": {"function" : 'lambda x: x > calculate_df.iloc[:,-3] * 1.05, axis = 0', 'point': -1}
+                    "params": {"self_define" : 'calculate_df.iloc[:,-1] > calculate_df.iloc[:,-3] * 1.05', 'point': -1}
                 },
                 # 资产同比增长率 > 30%
                 {

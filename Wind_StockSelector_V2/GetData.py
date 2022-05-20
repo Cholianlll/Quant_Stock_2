@@ -14,6 +14,9 @@ import warnings
 from WindPy import w
 
 warnings.filterwarnings("ignore")  # 关闭警告
+
+
+####################################### Database Setting######################################
 # 连接SQL数据库
 # conn = psycopg2.connect(database="WindStockData", user="postgres", password="191124", host="localhost", port="5432")
 # 获得游标，一个游标对象可以对数据库进行执行操作，多个应用会在同一个连接种创建多个光标
@@ -35,24 +38,24 @@ from sqlalchemy import create_engine
 
 engine = create_engine('mysql+pymysql://cholian:123Q456w@43.132.196.216/Wind', echo=False)
 
-# 因为每一次添加新的数据的时候，会有重复的rows，因此这里添加这个函数用来distinct the database
-print('数据库检查中')
-sql = 'select distinct * from stockdata'
-all_data = pd.read_sql(sql, con = engine)
+# # 因为每一次添加新的数据的时候，会有重复的rows，因此这里添加这个函数用来distinct the database
+# print('数据库检查中')
+# sql = 'select distinct * from stockdata'
+# all_data = pd.read_sql(sql, con = engine)
 
-sql = 'drop table stockdata;'
-cursor.execute(sql)
-conn.commit()
+# sql = 'drop table stockdata;'
+# cursor.execute(sql)
+# conn.commit()
 
-# save to mysql
-all_data.to_sql('stockdata', con = engine,index = False)
+# # save to mysql
+# all_data.to_sql('stockdata', con = engine,index = False)
 
-# change the datatime into date.
-sql = 'alter table wind.stockdata modify date date;'
-cursor.execute(sql)
-conn.commit()
-print('数据库正常')
-
+# # change the datatime into date.
+# sql = 'alter table wind.stockdata modify date date;'
+# cursor.execute(sql)
+# conn.commit()
+# print('数据库正常')
+####################################### Database Setting ######################################
 
 class StockData:
 

@@ -153,10 +153,21 @@ def calculate(df_list, description, **kwargs):
         # 忽略最早一期数据
         if k == "omit_first":
             calculate_df = calculate_df.iloc[:, 1:]
-        # 忽略最早一期数据
+        # 行/列函数
         if k == 'function':
-            calculate_df = eval(f'calculate_df.apply({kwargs["arithmetic"]})')
-             
+            # "function" : [lambda x: x * 1.05, 0]
+            
+            if len(kwargs["function"]) >= 2:
+                axis = kwargs["function"][1]
+                func = kwargs["function"][0]
+            else: 
+                axis = 0
+                func = kwargs["function"][0]
+            calculate_df = calculate_df.apply(func, axis = axis)
+        # 自定义操作
+        if k == 'self_define':
+            calculate_df['target_value'] = eval(kwargs["self_define"])
+            
         # 取复合增速  
         if k == 'compound_growth_rate' and kwargs["compound_growth_rate"] : 
         # input: kwargs["compound_growth_rate"] = True
