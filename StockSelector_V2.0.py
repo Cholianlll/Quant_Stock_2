@@ -251,14 +251,14 @@ filter_procedure = [
                 },
                 {
                     "name": ["net_profit_is"],
-                    "params": {"point": -1} # 拿出最新值
+                    "params": {'growth_rate': True, 'mean': True} # 拿出最新值
                 }
             ],
         "fields_arithmetic": {'dfarithmetic': ['/']},
         "sgn": "<",
-        "threshold": 0.667,
+        "threshold": 1,
         "period": "3Y",
-        "description": "(应收帐款 + 应收票据)3Y年均增速 < 净利润增速"
+        "description": "(应收帐款 + 应收票据)年均增速/净利润增速 <1 3Y"
     },
     # OCF增长率
     {
@@ -273,11 +273,11 @@ filter_procedure = [
                     "params": {'growth_rate': True} 
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0)'},
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.5)'},
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "经营性现金流增速 > 同期50%的扣非净利润增速 3Y"
+        "description": "经营性现金流增速/扣非净利润增速 >50% 3Y"
     },
     # 每股净现金流
     {
@@ -301,11 +301,11 @@ filter_procedure = [
             [
                 {
                     "name": ["stmnote_rdexp_capital"],
-                    "params": {}
+                    "params": {'omit_first': True}
                 },
                 {
                     "name": ["oper_rev"],
-                    "params": {}
+                    "params": {'omit_first': True}
                 }
             ],
         "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
@@ -314,7 +314,7 @@ filter_procedure = [
         "period": "3Y",
         "description": "资本化研发支出/营业收入 >8% 3Y"
     },
-    # ! 费用资本化率 - 1 有问题！！！！！
+    # 费用资本化率
     {
         "fields":
             [
@@ -331,7 +331,7 @@ filter_procedure = [
         "sgn": "<",
         "threshold": 0.5,
         "period": "3Y",
-        "description": "近三年累计开发支出/当年研发费用 <0.5 3Y"
+        "description": "费用资本化率1: 近三年累计开发支出/当年研发费用 <0.5 3Y"
     },
     {
         "fields":
@@ -349,7 +349,7 @@ filter_procedure = [
         "sgn": "<",
         "threshold": 0.15,
         "period": "1Y",
-        "description": "当年开发支出/当年营业收入 <0.15 1Y"
+        "description": "费用资本化率2: 当年开发支出/当年营业收入 <0.15 1Y"
     },
     # 审计意见
     {
@@ -372,18 +372,18 @@ filter_procedure = [
             [
                 {
                     "name": ["acct_rcv", "notes_rcv"],
-                    "params": {'dfarithmetic': ['+'], 'growth_rate': True, 'mean': True}
+                    "params": {'dfarithmetic': ['+'], 'growth_rate': True}
                 },
                 {
                     "name": ["oper_rev"],
-                    "params": {'growth_rate': True, 'mean': True}
+                    "params": {'growth_rate': True}
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "fields_arithmetic": {'dfarithmetic': ['/'],'all': '(calculate_df < 1.5)'},
         "sgn": "<",
         "threshold": 1.5,
         "period": "3Y",
-        "description": "(应收账款+应收票据) 增速均值/营业收入 <1.5 增速均值 3Y"
+        "description": "(应收账款+应收票据) 增速均值/营业收入增速均值 <1.5 增速均值 3Y"
     },   
     # 商誉 
     {
@@ -406,20 +406,20 @@ filter_procedure = [
             [
                 {
                     # PE
-                    "name": ["pe", "net_profit_is"],
-                    "params": {'dfarithmetic': ['/'], 'growth_rate': True, 'point': -1, 'all': "(calculate_df < 2.5)"}
+                    "name": ["pe", "yoyprofit"],
+                    "params": {'dfarithmetic': ['/'], 'point': -1, 'arithmetic': " < 2.5"}
                 },
                 {
                     # PB
                     "name": ["pb"],
-                    "params": {'point': -1, 'all': "(calculate_df < 15)"}
+                    "params": {'point': -1, 'arithmetic': " < 15"}
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['*']},
+        "fields_arithmetic": {'dfarithmetic': ['&']},
         "sgn": "==",
         "threshold": True,
         "period": "1Y",
-        "description": "PE/净利润<2.5 and PB < 15 1Y"
+        "description": "PE/净利润<2.5 并且 PB < 15 1Y"
     }    
 ]
 
