@@ -165,7 +165,9 @@ def calculate(df_list, description, **kwargs):
                 func = kwargs["function"][0]
             calculate_df = calculate_df.apply(func, axis = axis)
         # 自定义操作
+        
         if k == 'self_define':
+        # "self_define" : 'calculate_df.iloc[:,-1] - calculate_df.iloc[:,-3] * 1.05'
             calculate_df['target_value'] = eval(kwargs["self_define"])
             
         # 取复合增速  
