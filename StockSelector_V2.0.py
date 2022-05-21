@@ -337,7 +337,7 @@ filter_procedure = [
         "fields":
             [
                 {
-                    "name": ["r_d_costs"],
+                    "name": ["r_and_d_costs"],
                     "params": {'point' : -1}
                 },
                 {
