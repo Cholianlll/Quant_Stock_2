@@ -193,7 +193,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "ROA 三年有提升 3Y (资产大规模增长除外)"
+        "description": "ROA 三年有提升(5%) 3Y (资产大规模增长除外)"
     },
     
     # 总资产周转率+净利率
