@@ -314,43 +314,44 @@ filter_procedure = [
     #     "period": "3Y",
     #     "description": "资本化研发支出/营业收入 >1% 3Y"
     # },
-    # 费用资本化率
-    {
-        "fields":
-            [
-                {
-                    "name": ["r_and_d_costs"],
-                    "params": {'omit_first':True, 'self_define': 'calculate_df.sum(axis = 1)'}
-                },
-                {
-                    "name": ["rd_exp"],
-                    "params": {'omit_first':True, 'point': -1}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
-        "sgn": "<",
-        "threshold": 0.5,
-        "period": "3Y",
-        "description": "费用资本化率1: 近三年累计开发支出/当年研发费用 <0.5 3Y"
-    },
-    {
-        "fields":
-            [
-                {
-                    "name": ["r_d_costs"],
-                    "params": {'point' : -1}
-                },
-                {
-                    "name": ["oper_rev"],
-                    "params": {'point': -1}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
-        "sgn": "<",
-        "threshold": 0.15,
-        "period": "1Y",
-        "description": "费用资本化率2: 当年开发支出/当年营业收入 <0.15 1Y"
-    },
+    
+    # # 费用资本化率
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["r_and_d_costs"],
+    #                 "params": {'omit_first':True, 'self_define': 'calculate_df.sum(axis = 1)'}
+    #             },
+    #             {
+    #                 "name": ["rd_exp"],
+    #                 "params": {'omit_first':True, 'point': -1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': ['/']},
+    #     "sgn": "<",
+    #     "threshold": 0.5,
+    #     "period": "3Y",
+    #     "description": "费用资本化率1: 近三年累计开发支出/当年研发费用 <0.5 3Y"
+    # },
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["r_and_d_costs"],
+    #                 "params": {'point' : -1}
+    #             },
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {'point': -1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': ['/']},
+    #     "sgn": "<",
+    #     "threshold": 0.15,
+    #     "period": "1Y",
+    #     "description": "费用资本化率2: 当年开发支出/当年营业收入 <0.15 1Y"
+    # },
     # 审计意见
     {
         "fields":
