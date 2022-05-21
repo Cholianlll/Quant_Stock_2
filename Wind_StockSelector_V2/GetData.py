@@ -42,7 +42,7 @@ engine = create_engine('mysql+pymysql://cholian:123Q456w@43.132.196.216/Wind', e
 print('数据库检查中')
 sql = 'select distinct * from stockdata'
 all_data = pd.read_sql(sql, con = engine)
-all_data = all_data[all_data.iloc[:,2:].any().values]
+all_data = all_data[all_data.iloc[:,2:].any(axis = 1).values]
 
 
 sql = 'drop table stockdata;'
