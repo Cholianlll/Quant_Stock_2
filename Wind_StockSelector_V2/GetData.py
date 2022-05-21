@@ -279,7 +279,8 @@ class StockData:
                              "value": Wind_data.iloc[dates.index(date), stock_codes.index(code)]  # 数值
                              }
                 
-                if not data_dict["value"] or np.isnan(data_dict["value"]):  
+                # if not data_dict["value"] or np.isnan(data_dict["value"]):  
+                if not data_dict["value"]: 
                     # BUG WIND可能返回nan 或者None, we need to transfer the nan into None
                     # BUG make sure not the None then judge the nan.
                     data_dict["value"] = None
