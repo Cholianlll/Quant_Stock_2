@@ -449,7 +449,7 @@ score_procedure = [
             [
                 {
                     "name": ["est_stdsales"],
-                    "params": {}
+                    "params": {'point':-1}
                 }
             ],
         "fields_arithmetic": {},
@@ -516,11 +516,11 @@ score_procedure = [
             [
                 {
                     "name": ["peg"],
-                    "params": {}
+                    "params": {'point':-1}
                 },
                 {
                     "name": ["est_yoynetprofit"],
-                    "params": {}
+                    "params": {'point':-1}
                 }
             ],
         "fields_arithmetic": {'dfarithmetic': ['/']},
