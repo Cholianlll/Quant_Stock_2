@@ -69,7 +69,7 @@ filter_procedure = [
             [
                 {
                     "name": ["debttoassets"],
-                    "params": {'arithmetic': '<60'}
+                    "params": {'arithmetic': '<90'}
                 },
                 {
                     "name": ["yoy_assets"],
@@ -84,7 +84,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "1Y",
-        "description": "负债率 <60% 1Y (资产大规模增长除外)"
+        "description": "负债率 <90% 1Y (资产大规模增长除外)"
     },
     
     # 营业收入 + 特定条件
@@ -93,7 +93,7 @@ filter_procedure = [
             [
                 {
                     "name": ["oper_rev"],
-                    "params": {"compound_growth_rate" : True, 'arithmetic': '> 0.15'}
+                    "params": {"compound_growth_rate" : True, 'arithmetic': '> 0.05'}
                 },
                 {
                     "name": ["yoy_assets"],
@@ -108,7 +108,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "营业收入 复合增速 > 15% 3Y (资产大规模增长除外)"
+        "description": "营业收入 复合增速 > 5% 3Y (资产大规模增长除外)"
     },
 
     # EBITDA + 特定条件
@@ -121,7 +121,7 @@ filter_procedure = [
                 },
                 {
                     "name": ["ebitda"],
-                    "params": {'compound_growth_rate': True, 'arithmetic': '>0.1'}
+                    "params": {'compound_growth_rate': True, 'arithmetic': '>0.01'}
                 },
                 # 资产大规模增长
                 {
@@ -138,7 +138,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "EBITDA 三年非负，复合增速 > 10% 3Y (资产大规模增长除外)"
+        "description": "EBITDA 三年非负，复合增速 > 1% 3Y (资产大规模增长除外)"
     },
     
 
@@ -149,7 +149,7 @@ filter_procedure = [
             [
                 {
                     "name": ["deductedprofit"],
-                    "params": {"compound_growth_rate" : True,'arithmetic': '> 0.1'}
+                    "params": {"compound_growth_rate" : True,'arithmetic': '> 0.01'}
                 },
                 # 资产同比增长率 > 30%
                 {
@@ -166,7 +166,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "扣非净利润 复合增速 > 10% 3Y (资产大规模增长除外)"
+        "description": "扣非净利润 复合增速 > 1% 3Y (资产大规模增长除外)"
     },
     
     # ROA + 特定条件
@@ -193,7 +193,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "ROA 三年有提升 3Y (资产大规模增长除外)"
+        "description": "ROA 三年有提升(5%) 3Y (资产大规模增长除外)"
     },
     
     # 总资产周转率+净利率
@@ -237,9 +237,9 @@ filter_procedure = [
             ],
         "fields_arithmetic": {},
         "sgn": ">",
-        "threshold": 0.15,
+        "threshold": 0.05,
         "period": "1Y",
-        "description": "毛利率 最新一期增速 > 15% 1Y"
+        "description": "毛利率 最新一期增速 > 5% 1Y"
     },    
     # 应收帐款+应收票据增速/净利润增速
     {
@@ -273,11 +273,11 @@ filter_procedure = [
                     "params": {'growth_rate': True} 
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.5)'},
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.05)'},
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "经营性现金流增速/扣非净利润增速 >50% 3Y"
+        "description": "经营性现金流增速/扣非净利润增速 >5% 3Y"
     },
     # 每股净现金流
     {
@@ -308,11 +308,11 @@ filter_procedure = [
                     "params": {'omit_first': True}
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
+        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.01)"},
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "资本化研发支出/营业收入 >8% 3Y"
+        "description": "资本化研发支出/营业收入 >1% 3Y"
     },
     # 费用资本化率
     {
