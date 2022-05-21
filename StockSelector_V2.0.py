@@ -312,26 +312,44 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "资本化研发支出/营业收入 > 8% 3Y"
+        "description": "资本化研发支出/营业收入 >8% 3Y"
     },
-    # 研发支出占比 有问题！！！！！
+    # ! 费用资本化率 - 1 有问题！！！！！
     {
         "fields":
             [
                 {
-                    "name": ["stmnote_rdexp_capital"],
-                    "params": {}
+                    "name": ["r_d_costs"],
+                    "params": {'omit_first':True, 'self_define': 'calculate_df.sum(axis = 1)'}
+                },
+                {
+                    "name": ["rd_exp"],
+                    "params": {'omit_first':True, 'point': -1}
+                }
+            ],
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "sgn": "<",
+        "threshold": 0.5,
+        "period": "3Y",
+        "description": "近三年累计开发支出/当年研发费用 <0.5 3Y"
+    },
+    {
+        "fields":
+            [
+                {
+                    "name": ["r_d_costs"],
+                    "params": {'point' : -1}
                 },
                 {
                     "name": ["oper_rev"],
-                    "params": {}
+                    "params": {'point': -1}
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df < 0.15)"},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "资本化研发支出/营业收入 < 15% 3Y"
+        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "sgn": "<",
+        "threshold": 0.15,
+        "period": "1Y",
+        "description": "当年开发支出/当年营业收入 <0.15 1Y"
     },
     # 审计意见
     {
@@ -365,7 +383,7 @@ filter_procedure = [
         "sgn": "<",
         "threshold": 1.5,
         "period": "3Y",
-        "description": "(应收账款+应收票据) 增速均值 < 营收1.5倍 增速均值 3Y"
+        "description": "(应收账款+应收票据) 增速均值/营业收入 <1.5 增速均值 3Y"
     },   
     # 商誉 
     {
@@ -380,7 +398,7 @@ filter_procedure = [
         "sgn": "<",
         "threshold": 0.3,
         "period": "1Y",
-        "description": "商誉/净资产 近一年值 <30% 1Y"
+        "description": "商誉/净资产 <30% 1Y"
     },
     # PEG and PB
     {
@@ -454,7 +472,7 @@ score_procedure = [
         "how": "ascending",
         "period": "3Y",
         "weight": 0.15,
-        "description": "ROE 3Y"
+        "description": "ROE增长幅度 3Y"
     },
     
     # 费用增速均值/营收增速均值 3Y
