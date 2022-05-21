@@ -1,3 +1,4 @@
+# 指标信息
 确认：
 1. 营业收入： 近三年（e.g: 18,19,20）复合增速
 2. EBITDA：复合增速，并且每年EBITDA不允许有负值
@@ -43,7 +44,7 @@ e.g：
 6.满足特定条件即资产大规模增加的，不适用于从第1至第6项的筛选指标，从第7项毛利率开始。
 
 
-
+# 更新日志
 
 16-May
 
@@ -57,6 +58,47 @@ e.g：
 
 
 
+
+2022 0516 :
+1. debug for compound return
+
+e.g:
+{'stock_code': '603081.SH', 'date': datetime.date(2013, 12, 31), 'field': 'ebitda', 'value': None}
+
+the returning data is "nan" from wind, we need transfer it into the None to be inserted into the Mysql database
+
+2. shrink the database to 65 rows, see the constituents_all
+
+3. change the date with "2022-05-16", the original date is "2017-05-01"
+
+4. can not use the small size database because of stocks will be filtered all out.
+
+5. the first step is to build the complete database for the whole 2022 0516 day data.
+
+2022 0517：
+
+1. compound growth rate error: all is inf
+2. added a second version of writing mysql in GetData
+3. pandas to sql can not insert the data if no such a column exists.
+4. 增加了stock_code 和date作为primary key看看， failed
+5. stockdata 中应该是date还是datetime？
+
+
+2022 0518: 
+
+1. add a verification on the column because the pandas can not append to the database if no such column exists.
+2. change the new type of writing new columns to the database.
+3. finished the database
+
+
+2022 0519: 
+1. change the datetime with date.
+2. distinct the rows in the database.
+
+
+
+
+# 数据库
 ip: jacarandastock.com 
 username: admin 
 password: TFqt3qihVYei4qZz
