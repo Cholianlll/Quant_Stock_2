@@ -239,7 +239,7 @@ filter_procedure = [
         "sgn": ">",
         "threshold": 0.15,
         "period": "1Y",
-        "description": "毛利率 最新一期增速 > 15% 1Y"
+        "description": "毛利率 最新一期 > 15% 1Y"
     },    
     # 应收帐款+应收票据增速/净利润增速
     {
