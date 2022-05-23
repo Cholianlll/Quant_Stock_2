@@ -173,10 +173,15 @@ filter_procedure = [
     {
         "fields":
             [
-                # 第一年 ROA
+                # 三年每年都大于5%
                 {
                     "name": ["roa"],
-                    "params": {"self_define" : 'calculate_df.iloc[:,-1] - calculate_df.iloc[:,-3] * 1.05', 'arithmetic':'>0', 'point':-1}
+                    "params": {"omit_first" : True, 'all': '(calculate_df > 0.5)'}
+                },
+                # 第三年高于第一年
+                {
+                    "name": ["roa"],
+                    "params": {"omit_first" : True, 'self_define': '(calculate_df.iloc[:,-1] > calculate_df.iloc[:,-1])'}
                 },
                 # 资产同比增长率 > 30%
                 {
@@ -189,11 +194,11 @@ filter_procedure = [
                     "params": {'arithmetic': '>20','point': -1}
                 },                
             ],
-        "fields_arithmetic": {'dfarithmetic': [' | ', ' & '], 'point': -1},
+        "fields_arithmetic": {'dfarithmetic': [' & ', ' | ', ' & '], 'point': -1},
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "ROA 三年有提升(5%) 3Y (资产大规模增长除外)"
+        "description": "ROA 三年均大于5% 且第三年较第一年有提升 3Y (资产大规模增长除外)"
     },
     
     # 总资产周转率+净利率
@@ -232,14 +237,14 @@ filter_procedure = [
             [
                 {
                     "name": ["grossprofitmargin"],
-                    "params": {"growth_rate" : True, 'point':-1}
+                    "params": {"omit_first" : True, 'all': '(calculate_df > 0.15)'}
                 }
             ],
         "fields_arithmetic": {},
-        "sgn": ">",
-        "threshold": 0.15,
-        "period": "1Y",
-        "description": "毛利率 最新一期 > 15% 1Y"
+        "sgn": "==",
+        "threshold": True,
+        "period": "3Y",
+        "description": "毛利率 近三年每年均 >15% 3Y"
     },    
     # 应收帐款+应收票据增速/净利润增速
     {
@@ -266,41 +271,26 @@ filter_procedure = [
             [
                 {
                     "name": ["net_cash_flows_oper_act"],
-                    "params": {'growth_rate': True}
+                    "params": {'compound_growth_rate': True}
                 },
                 {
                     "name": ["grossprofitmargin"],
-                    "params": {'growth_rate': True} 
+                    "params": {'compound_growth_rate': True} 
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all':'(calculate_df > 0.5)'},
-        "sgn": "==",
-        "threshold": True,
+        "fields_arithmetic": {'dfarithmetic': ['/'],},
+        "sgn": ">",
+        "threshold": 1,
         "period": "3Y",
-        "description": "经营性现金流增速/扣非净利润增速 >50% 3Y"
+        "description": "经营性现金流增速 大于扣非净利润增速 3Y"
     },
-    # 每股净现金流
-    {
-        "fields":
-            [
-                {
-                    # 每股现金流净额
-                    "name": ["cfps"],
-                    "params": {"all" : "(calculate_df > 0)"}
-                }
-            ],
-        "fields_arithmetic": {},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "每股净现金流 近三年无负值 3Y"
-    },    
+  
     # 研发支出占比
     {
         "fields":
             [
                 {
-                    "name": ["stmnote_rdexp_capital"],
+                    "name": ["wgsd_rd_exp"],
                     "params": {'omit_first': True}
                 },
                 {
@@ -312,7 +302,7 @@ filter_procedure = [
         "sgn": "==",
         "threshold": True,
         "period": "3Y",
-        "description": "资本化研发支出/营业收入 >8% 3Y"
+        "description": "费用化研发支出/营业收入 >8% 3Y"
     },
     # 费用资本化率
     {
@@ -333,24 +323,6 @@ filter_procedure = [
         "period": "3Y",
         "description": "费用资本化率1: 近三年累计开发支出/当年研发费用 <0.5 3Y"
     },
-    {
-        "fields":
-            [
-                {
-                    "name": ["r_and_d_costs"],
-                    "params": {'point' : -1}
-                },
-                {
-                    "name": ["oper_rev"],
-                    "params": {'point': -1}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
-        "sgn": "<",
-        "threshold": 0.15,
-        "period": "1Y",
-        "description": "费用资本化率2: 当年开发支出/当年营业收入 <0.15 1Y"
-    },
     # 审计意见
     {
         "fields":
@@ -366,25 +338,7 @@ filter_procedure = [
         "period": "3Y",
         "description": "审计意见 全部无保留 3Y"
     },
-    # 应收帐款+票据 与 营收增速
-    {
-        "fields":
-            [
-                {
-                    "name": ["acct_rcv", "notes_rcv"],
-                    "params": {'dfarithmetic': ['+'], 'growth_rate': True}
-                },
-                {
-                    "name": ["oper_rev"],
-                    "params": {'growth_rate': True}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/'],'all': '(calculate_df < 1.5)'},
-        "sgn": "<",
-        "threshold": 1.5,
-        "period": "3Y",
-        "description": "(应收账款+应收票据) 增速均值/营业收入增速均值 <1.5 增速均值 3Y"
-    },   
+ 
     # 商誉 
     {
         "fields":
