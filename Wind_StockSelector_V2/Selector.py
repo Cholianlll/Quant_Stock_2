@@ -156,7 +156,7 @@ def calculate(df_list, description, **kwargs):
         # lambda 行函数
         if k == 'function':
             # "function" : lambda x: x * 1.05
-            calculate_df = calculate_df.apply(func, axis = 1)
+            calculate_df = calculate_df.apply(kwargs["function"], axis = 1)
         # 自定义操作
         if k == 'self_define':
         # "self_define" : 'calculate_df.iloc[:,-1] - calculate_df.iloc[:,-3] * 1.05'
