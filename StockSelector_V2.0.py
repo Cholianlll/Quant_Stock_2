@@ -176,12 +176,12 @@ filter_procedure = [
                 # 三年每年都大于5%
                 {
                     "name": ["roa"],
-                    "params": {"omit_first" : True, 'all': '(calculate_df > 0.5)'}
+                    "params": {"omit_first" : True, 'arithmetic': '> 0.5', 'all': 'calculate_df'}
                 },
                 # 第三年高于第一年
                 {
                     "name": ["roa"],
-                    "params": {"omit_first" : True, 'self_define': '(calculate_df.iloc[:,-1] > calculate_df.iloc[:,-1])'}
+                    "params": {"omit_first" : True, 'function': '[lambda x: x > x[0], 1]', 'point': -1}
                 },
                 # 资产同比增长率 > 30%
                 {
