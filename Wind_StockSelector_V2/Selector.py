@@ -153,19 +153,11 @@ def calculate(df_list, description, **kwargs):
         # 忽略最早一期数据
         if k == "omit_first":
             calculate_df = calculate_df.iloc[:, 1:]
-        # 行/列函数
+        # lambda 行函数
         if k == 'function':
-            # "function" : [lambda x: x * 1.05, 0]
-            
-            if len(kwargs["function"]) >= 2:
-                axis = kwargs["function"][1]
-                func = kwargs["function"][0]
-            else: 
-                axis = 0
-                func = kwargs["function"][0]
-            calculate_df = calculate_df.apply(func, axis = axis)
+            # "function" : lambda x: x * 1.05
+            calculate_df = calculate_df.apply(func, axis = 1)
         # 自定义操作
-        
         if k == 'self_define':
         # "self_define" : 'calculate_df.iloc[:,-1] - calculate_df.iloc[:,-3] * 1.05'
             calculate_df['target_value'] = eval(kwargs["self_define"])

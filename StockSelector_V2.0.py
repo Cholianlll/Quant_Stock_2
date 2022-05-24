@@ -181,7 +181,7 @@ filter_procedure = [
                 # 第三年高于第一年
                 {
                     "name": ["roa"],
-                    "params": {"omit_first" : True, 'function': '[lambda x: x > x[0], 1]', 'point': -1}
+                    "params": {"omit_first" : True, 'function': lambda x: x > x[0] , 'point': -1}
                 },
                 # 资产同比增长率 > 30%
                 {
