@@ -309,19 +309,19 @@ filter_procedure = [
         "fields":
             [
                 {
-                    "name": ["r_d_costs"],
-                    "params": {'omit_first':True, 'self_define': 'calculate_df.sum(axis = 1)'}
+                    "name": ["stmnote_RDexp_capital"],
+                    "params": {'omit_first':True, }
                 },
                 {
-                    "name": ["rd_exp"],
-                    "params": {'omit_first':True, 'point': -1}
+                    "name": ["stmnote_RDexp"],
+                    "params": {'omit_first':True, }
                 }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "fields_arithmetic": {'dfarithmetic': ['/'],'all': "(calculate_df < 0.5)"},
         "sgn": "<",
         "threshold": 0.5,
         "period": "3Y",
-        "description": "费用资本化率1: 近三年累计开发支出/当年研发费用 <0.5 3Y"
+        "description": "费用化研发支出/总研发支出 <0.5 3Y"
     },
     # 审计意见
     {
@@ -381,12 +381,12 @@ filter_procedure = [
 # 评分条件
 score_procedure = [
 
-    #万德一致预测（指定年度）-预测净利润标准差
+    #净利润
     {
         "fields":
             [
                 {
-                    "name": ["est_stdnetprofit"],
+                    "name": ["net_profit_is"],
                     "params": {'point': -1}
                 }
             ],
@@ -394,15 +394,15 @@ score_procedure = [
         "how": "descending",
         "period": "1Y",
         "weight": 0.15,
-        "description": "万德一致预测 净利润标准差"
+        "description": "净利润"
     },
 
-    #万德一致预测（指定年度）-预测营业收入标准差
+    #营业收入
     {
         "fields":
             [
                 {
-                    "name": ["est_stdsales"],
+                    "name": ["oper_rev"],
                     "params": {'point':-1}
                 }
             ],
@@ -410,7 +410,7 @@ score_procedure = [
         "how": "descending",
         "period": "1Y",
         "weight": 0.15,
-        "description": "万德一致预测 营业收入标准差"
+        "description": "主营业务收入"
     },
     
     #ROE
@@ -419,14 +419,14 @@ score_procedure = [
             [
                 {
                     "name": ["roe"],
-                    "params": {'growth_rate': True, 'mean': True,}
+                    "params": {'compound_growth_rate': True}
                 }
             ],
         "fields_arithmetic": {},
         "how": "ascending",
         "period": "3Y",
         "weight": 0.15,
-        "description": "ROE增长幅度 3Y"
+        "description": "ROE复合增长率 3Y"
     },
     
     # 费用增速均值/营收增速均值 3Y
@@ -454,30 +454,27 @@ score_procedure = [
         "fields":
             [
                 {
-                    "name": ["noplat",'wgsd_dep_exp_of','cash_pay_acq_const_fiolta'],
-                    "params": {'dfarithmetic': ['+', '-'], 'growth_rate': True, 'mean': True}
+                    "name": ["fcff"],
+                    "params": {'growth_rate': True, 'mean': True}
                 }
             ],
         "fields_arithmetic": {},
         "how": "ascending",
         "period": "3Y",
         "weight": 0.1,
-        "description": "FCF增速均值 3Y"
+        "description": "FCFF增速均值 3Y"
     },
     # PEG/净利润同比增速(wind一致预测)
     {
         "fields":
             [
                 {
-                    "name": ["peg"],
-                    "params": {'point':-1}
+                    # PEG
+                    "name": ["pe", "yoyprofit"],
+                    "params": {'dfarithmetic': ['/'], 'point': -1}
                 },
-                {
-                    "name": ["est_yoynetprofit"],
-                    "params": {'point':-1}
-                }
             ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
+        "fields_arithmetic": {},
         "how": "descending",
         "period": "1Y",
         "weight": 0.35,
