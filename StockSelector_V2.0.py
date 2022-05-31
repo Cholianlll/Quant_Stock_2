@@ -321,7 +321,7 @@ filter_procedure = [
         "sgn": "<",
         "threshold": 0.5,
         "period": "3Y",
-        "description": "费用化研发支出/总研发支出 <0.5 3Y"
+        "description": "资本化研发支出/总研发支出 <0.5 3Y"
     },
     # 审计意见
     {
