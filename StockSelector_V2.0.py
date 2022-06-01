@@ -290,7 +290,7 @@ filter_procedure = [
         "fields":
             [
                 {
-                    "name": ["wgsd_rd_exp"],
+                    "name": ["rd_exp"],
                     "params": {'omit_first': True}
                 },
                 {
