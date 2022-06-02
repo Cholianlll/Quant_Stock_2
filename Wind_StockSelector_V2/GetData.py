@@ -42,8 +42,9 @@ engine = create_engine('mysql+pymysql://cholian:123Q456w@43.132.196.216/Wind', e
 print('数据库检查中')
 sql = 'select distinct * from stockdata'
 all_data = pd.read_sql(sql, con = engine)
-all_data = all_data[all_data.iloc[:,2:].any(axis = 1).values]
 
+# drop duplicate rows
+all_data = all_data[all_data.iloc[:,2:].any(axis = 1).values]
 
 sql = 'drop table stockdata;'
 cursor.execute(sql)
@@ -91,7 +92,7 @@ class StockData:
         WHERE table_name='stockdata';       
         '''
         cursor.execute(sql)
-        column_names = [t[0] for t in cursor.fetchall()]  # 列名
+        column_names = [t[0].lower() for t in cursor.fetchall()]  # 列名
         
         # 若field对应列名不存在，在TABLE中加入此列
         if field.lower() not in column_names:
