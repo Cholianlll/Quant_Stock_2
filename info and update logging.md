@@ -253,14 +253,20 @@ the returning data is "nan" from wind, we need transfer it into the None to be i
 
 
 # 数据库
-ip: jacarandastock.com 
-username: admin 
-password: TFqt3qihVYei4qZz
+## 阿里云数据库（最低配）
+
+链接
+https://rdsbuy.console.aliyun.com/create/rds/mysql
+
+配置
+包年包月 - 1年
+节点：上海
+系列：基础版
+实例规格： 1核1G
+存储空间： 50GB
+价格： 675 元/年
+
+![YWGb2k](https://raw.githubusercontent.com/Cholianlll/Upic_repo/main/uPic/YWGb2k.png?token=ANDW5GWMRT2W7LG65SYVYW3CTJ7NO)
 
 
-
-ip: jacarandastock.com
-Port: 3306
-Username:jacaranda
-Password: U9qJA32zpUEiwey8cECi
 
