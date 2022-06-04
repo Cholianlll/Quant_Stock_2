@@ -285,25 +285,25 @@ filter_procedure = [
         "description": "经营性现金流增速 大于扣非净利润增速 3Y"
     },
   
-    # 研发支出占比
-    {
-        "fields":
-            [
-                {
-                    "name": ["rd_exp"],
-                    "params": {'omit_first': True}
-                },
-                {
-                    "name": ["oper_rev"],
-                    "params": {'omit_first': True}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
-        "sgn": "==",
-        "threshold": True,
-        "period": "3Y",
-        "description": "费用化研发支出/营业收入 >8% 3Y"
-    },
+    # # 研发支出占比
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["rd_exp"],
+    #                 "params": {'omit_first': True}
+    #             },
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {'omit_first': True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': ['/'], 'all': "(calculate_df > 0.08)"},
+    #     "sgn": "==",
+    #     "threshold": True,
+    #     "period": "3Y",
+    #     "description": "费用化研发支出/营业收入 >8% 3Y"
+    # },
     # 费用资本化率
     {
         "fields":
