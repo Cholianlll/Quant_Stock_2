@@ -362,73 +362,73 @@ filter_procedure = [
 # 评分条件
 score_procedure = [
 
-    #净利润
-    {
-        "fields":
-            [
-                {
-                    "name": ["net_profit_is"],
-                    "params": {'point': -1}
-                }
-            ],
-        "fields_arithmetic": {},
-        "how": "descending",
-        "period": "1Y",
-        "weight": 0.15,
-        "description": "净利润"
-    },
+    # #净利润
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["net_profit_is"],
+    #                 "params": {'point': -1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "how": "descending",
+    #     "period": "1Y",
+    #     "weight": 0.15,
+    #     "description": "净利润"
+    # },
 
-    #营业收入
-    {
-        "fields":
-            [
-                {
-                    "name": ["oper_rev"],
-                    "params": {'point':-1}
-                }
-            ],
-        "fields_arithmetic": {},
-        "how": "descending",
-        "period": "1Y",
-        "weight": 0.15,
-        "description": "主营业务收入"
-    },
+    # #营业收入
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {'point':-1}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "how": "descending",
+    #     "period": "1Y",
+    #     "weight": 0.15,
+    #     "description": "主营业务收入"
+    # },
     
-    #ROE
-    {
-        "fields":
-            [
-                {
-                    "name": ["roe"],
-                    "params": {'compound_growth_rate': True}
-                }
-            ],
-        "fields_arithmetic": {},
-        "how": "ascending",
-        "period": "3Y",
-        "weight": 0.15,
-        "description": "ROE复合增长率 3Y"
-    },
+    # #ROE
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["roe"],
+    #                 "params": {'compound_growth_rate': True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {},
+    #     "how": "ascending",
+    #     "period": "3Y",
+    #     "weight": 0.15,
+    #     "description": "ROE复合增长率 3Y"
+    # },
     
-    # 费用增速均值/营收增速均值 3Y
-    {
-        "fields":
-            [
-                {
-                    "name": ["selling_dist_exp", "gerl_admin_exp", "fin_exp_is"],
-                    "params": {'dfarithmetic': ['+', '+'], 'growth_rate': True, 'mean': True}
-                },
-                {
-                    "name": ["oper_rev"],
-                    "params": {'growth_rate': True, 'mean': True}
-                }
-            ],
-        "fields_arithmetic": {'dfarithmetic': ['/']},
-        "how": "descending",
-        "period": "3Y",
-        "weight": 0.1,
-        "description": "费用增速均值/营收增速均值 3Y"
-    },
+    # # 费用增速均值/营收增速均值 3Y
+    # {
+    #     "fields":
+    #         [
+    #             {
+    #                 "name": ["selling_dist_exp", "gerl_admin_exp", "fin_exp_is"],
+    #                 "params": {'dfarithmetic': ['+', '+'], 'growth_rate': True, 'mean': True}
+    #             },
+    #             {
+    #                 "name": ["oper_rev"],
+    #                 "params": {'growth_rate': True, 'mean': True}
+    #             }
+    #         ],
+    #     "fields_arithmetic": {'dfarithmetic': ['/']},
+    #     "how": "descending",
+    #     "period": "3Y",
+    #     "weight": 0.1,
+    #     "description": "费用增速均值/营收增速均值 3Y"
+    # },
     
     # FCF (PPT中的公式): 息前税后营业利润+折旧与摊销-资本支出 (购建固定资产、无形资产支付的现金)
     {
