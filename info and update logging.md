@@ -6,36 +6,36 @@
 剩余3844
 
 2. 营业收入
-  筛选掉2209
-  剩余1635
+    筛选掉2209
+    剩余1635
 
 3. EBITDA 
-  筛选335
-  剩余1280
+    筛选335
+    剩余1280
 
 4. 扣非净利润
-  筛选72
-  剩余1208
+    筛选72
+    剩余1208
 
 5. ROA 
-  筛选148
-  剩余1060
+    筛选148
+    剩余1060
 
 6. 总资产周转率
-  筛选180
-  剩余880
+    筛选180
+    剩余880
 
 7. 毛利率
-  筛掉12
-  剩余868
+    筛掉12
+    剩余868
 
 8. 应收账款
-  筛掉221
-  剩余647
+    筛掉221
+    剩余647
 
 9. ocf
-  筛掉258
-  剩余389
+    筛掉258
+    剩余389
 
 10. 自由现金流 （删去）
 
@@ -268,4 +268,18 @@ https://rdsbuy.console.aliyun.com/create/rds/mysql
 ![YWGb2k](https://raw.githubusercontent.com/Cholianlll/Upic_repo/main/uPic/YWGb2k.png?token=ANDW5GWMRT2W7LG65SYVYW3CTJ7NO)
 
 
+
+
+
+# backtesting for wind time period
+
+2021-12-30
+
+2020-12-30
+
+2019-12-30
+
+2018-12-30
+
+2017-12-30
 
