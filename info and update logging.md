@@ -273,13 +273,17 @@ https://rdsbuy.console.aliyun.com/create/rds/mysql
 
 # backtesting for wind time period
 
-2021-12-30
+2021-12-31
 
-2020-12-30
+2020-12-31
 
-2019-12-30
+2019-12-31
 
-2018-12-30
+2018-12-31
 
-2017-12-30
+2017-12-31
+loss all the stocks in 
+营业收入 复合增速 > 15% 3Y
+
+bugs: no stocks 
 
