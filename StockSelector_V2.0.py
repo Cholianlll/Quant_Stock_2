@@ -466,7 +466,7 @@ score_procedure = [
 
 # 实例化股票池
 # operate_date = "2017-05-01"
-operate_date = "2017-01-01"
+operate_date = "2022-07-11"
 pool = Stock_pool()
 pool.get_constituent(operate_date, "a001010100000000")  # 获取当年成分股
 
